@@ -126,8 +126,3 @@ src/main/resources/solverConfig-epl.xml
 - Score interpretation: 0hard/... means no violations (feasible).
 
 ---
-
-## Troubleshooting
-- “release version 21 not supported”: Install JDK 21 and ensure java/javac point to it.
-- “No plugin found for prefix 'spring-boot'”: Make sure you are in the folder with pom.xml.
-- Timefold constraint name error: Names cannot contain /. Use - or _ instead.
