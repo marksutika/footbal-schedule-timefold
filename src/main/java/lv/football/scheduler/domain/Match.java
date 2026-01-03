@@ -10,35 +10,34 @@ import java.util.UUID;
 public class Match {
 
     @PlanningId
-    private final UUID id;
+    private UUID id;
 
-    private final Team homeTeam;
-    private final Team awayTeam;
-    private final Round round;
+    private Team homeTeam;
+    private Team awayTeam;
+
+    // Decision variables:
+    @PlanningVariable(valueRangeProviderRefs = "roundRange")
+    private Round round;
 
     @PlanningVariable(valueRangeProviderRefs = "timeslotRange")
     private Timeslot timeslot;
 
-    @PlanningVariable(valueRangeProviderRefs = "stadiumRange")
-    private Stadium stadium;
-
-    // 🔴 ОБЯЗАТЕЛЕН для Timefold
+    // Required by Timefold (no-args constructor). Keep it protected.
     protected Match() {
-        this.id = UUID.randomUUID();
-        this.homeTeam = null;
-        this.awayTeam = null;
-        this.round = null;
+        // Keep fields null; Timefold will set them.
     }
 
-    // 🔵 ОСНОВНОЙ конструктор
-    public Match(Team homeTeam, Team awayTeam, Round round) {
-        this.id = UUID.randomUUID();
+    public Match(UUID id, Team homeTeam, Team awayTeam) {
+        this.id = (id != null) ? id : UUID.randomUUID();
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
-        this.round = round;
     }
 
-    // ===== getters =====
+    public Match(Team homeTeam, Team awayTeam) {
+        this(UUID.randomUUID(), homeTeam, awayTeam);
+    }
+
+    // ---------- Getters / setters ----------
 
     public UUID getId() {
         return id;
@@ -56,6 +55,10 @@ public class Match {
         return round;
     }
 
+    public void setRound(Round round) {
+        this.round = round;
+    }
+
     public Timeslot getTimeslot() {
         return timeslot;
     }
@@ -64,11 +67,11 @@ public class Match {
         this.timeslot = timeslot;
     }
 
+    /**
+     * Derived: stadium is defined by the home team.
+     * If you want stadium to be a planning decision, remove this method and add a planning variable.
+     */
     public Stadium getStadium() {
-        return stadium;
-    }
-
-    public void setStadium(Stadium stadium) {
-        this.stadium = stadium;
+        return (homeTeam != null) ? homeTeam.getStadium() : null;
     }
 }

@@ -1,0 +1,313 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Football Scheduler</title>
+  <style>
+    :root{
+      --bg:#0b1220; --card:#111a2e; --text:#e6e9f2; --muted:#9aa4b2;
+      --accent:#4f8cff; --border:#23304b;
+    }
+    body{
+      margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:linear-gradient(180deg,#081024, #0b1220);
+      color:var(--text);
+    }
+    .wrap{ max-width:1100px; margin:0 auto; padding:40px 16px; }
+    h1{ margin:0 0 8px; font-weight:700; letter-spacing:.2px; }
+    .sub{ color:var(--muted); margin-bottom:24px; }
+
+    .card{
+      background:rgba(17,26,46,.85);
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:18px;
+      box-shadow:0 12px 40px rgba(0,0,0,.35);
+    }
+
+    .controls{
+      display:flex; gap:12px; flex-wrap:wrap; align-items:center;
+      justify-content:space-between;
+    }
+    .left{ display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+    label{ color:var(--muted); font-size:13px; }
+    select, button{
+      border-radius:10px; border:1px solid var(--border);
+      padding:10px 12px; background:#0e1630; color:var(--text);
+      font-size:14px;
+    }
+    button{
+      background:var(--accent);
+      border:none;
+      cursor:pointer;
+      font-weight:600;
+    }
+    button.secondary{
+      background:#0e1630;
+      border:1px solid var(--border);
+      font-weight:600;
+    }
+    button:disabled{ opacity:.5; cursor:not-allowed; }
+    .status{ margin-top:12px; color:var(--muted); }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:14px;
+      overflow:hidden;
+      border-radius:12px;
+    }
+    th,td{
+      border-bottom:1px solid var(--border);
+      padding:10px 10px;
+      text-align:left;
+      font-size:14px;
+    }
+    th{ color:#cfe0ff; font-weight:600; background:#0d1630; }
+    tr:hover td{ background:rgba(79,140,255,.06); }
+
+    .pill{
+      display:inline-block; padding:4px 10px; border-radius:999px;
+      border:1px solid var(--border); color:var(--text);
+      background:#0d1630;
+      font-size:12px;
+    }
+
+    .footer{
+      margin-top:18px; color:#9aa4b2; font-size:12px; text-align:center;
+    }
+    .footer a{ color:#9bbcff; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Football Scheduler (Timefold)</h1>
+    <div class="sub">Generate and optimize a match calendar under hard/soft constraints.</div>
+
+    <div class="card">
+      <div class="controls">
+        <div class="left">
+          <label>
+            Dataset:
+            <select id="type">
+              <option value="small" selected>small (6 teams, 2 cycles)</option>
+              <option value="virsliga">virsliga (10 teams, 4 cycles)</option>
+              <option value="epl">epl (20 teams, 2 cycles)</option>
+            </select>
+          </label>
+
+          <button id="solve">Solve</button>
+
+          <button id="download" class="secondary" disabled>Download CSV</button>
+
+          <label>
+            Round:
+            <select id="roundFilter" disabled>
+              <option value="all">All</option>
+            </select>
+          </label>
+
+          <button id="lastRound" class="secondary" disabled>Last round</button>
+        </div>
+
+        <span class="pill" id="pill">Idle</span>
+      </div>
+
+      <div class="status" id="status"></div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Round</th><th>Date</th><th>Day</th><th>Time</th>
+            <th>Home</th><th>Away</th><th>Stadium</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+
+    <div class="footer">
+      © 2026 Kaspars Grīnbergs‑Zaļkalns & Marks Sutika —
+      <a href="https://github.com/marksutika/footbal-schedule-timefold" target="_blank">GitHub</a>
+    </div>
+  </div>
+
+<script>
+let currentId = null;
+let lastMatches = [];
+let lastRoundNumber = null;
+
+function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
+
+function computeMatchDate(roundStartDateStr, timeslotDay) {
+  const roundStart = new Date(roundStartDateStr + "T00:00:00");
+  const jsDowToJava = d => (d === 0 ? 7 : d);
+  const startDow = jsDowToJava(roundStart.getDay());
+  const targetDow = ({
+    MONDAY:1,TUESDAY:2,WEDNESDAY:3,THURSDAY:4,FRIDAY:5,SATURDAY:6,SUNDAY:7
+  })[timeslotDay];
+  const matchDate = new Date(roundStart);
+  matchDate.setDate(matchDate.getDate() + (targetDow - startDow));
+  return matchDate.toISOString().slice(0,10);
+}
+
+function toCsv(matches){
+  const header = ["round","date","day","time","home","away","stadium"];
+  const lines = [header.join(",")];
+  for(const m of matches){
+    const date = computeMatchDate(m.round.startDate, m.timeslot.dayOfWeek);
+    const row = [
+      m.round.roundNumber,
+      date,
+      m.timeslot.dayOfWeek,
+      m.timeslot.startTime,
+      m.homeTeam.name,
+      m.awayTeam.name,
+      (m.stadium ? m.stadium.name : "")
+    ].map(v => `"${String(v).replaceAll('"','""')}"`);
+    lines.push(row.join(","));
+  }
+  return lines.join("\n");
+}
+
+function renderTable(matches) {
+  const tbody = document.getElementById("tbody");
+  tbody.innerHTML = "";
+  for(const m of matches){
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${m.round.roundNumber}</td>
+      <td>${m._date}</td>
+      <td>${m.timeslot.dayOfWeek}</td>
+      <td>${m.timeslot.startTime}</td>
+      <td>${m.homeTeam.name}</td>
+      <td>${m.awayTeam.name}</td>
+      <td>${m.stadium ? m.stadium.name : ""}</td>`;
+    tbody.appendChild(tr);
+  }
+}
+
+function fillRoundFilter(maxRound) {
+  lastRoundNumber = maxRound;
+  const sel = document.getElementById("roundFilter");
+  sel.innerHTML = `<option value="all">All</option>`;
+  for (let r = 1; r <= maxRound; r++) {
+    const opt = document.createElement("option");
+    opt.value = String(r);
+    opt.textContent = String(r);
+    sel.appendChild(opt);
+  }
+  sel.disabled = false;
+  document.getElementById("lastRound").disabled = false;
+}
+
+function applyRoundFilter() {
+  const sel = document.getElementById("roundFilter");
+  const v = sel.value;
+  if (v === "all") {
+    renderTable(lastMatches);
+    return;
+  }
+  const rn = Number(v);
+  renderTable(lastMatches.filter(m => m.round.roundNumber === rn));
+}
+
+document.getElementById("roundFilter").addEventListener("change", applyRoundFilter);
+
+document.getElementById("lastRound").onclick = () => {
+  if (!lastRoundNumber) return;
+  document.getElementById("roundFilter").value = String(lastRoundNumber);
+  applyRoundFilter();
+};
+
+document.getElementById("download").onclick = () => {
+  const csv = toCsv(lastMatches);
+  const blob = new Blob([csv], {type:"text/csv;charset=utf-8"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `schedule_${document.getElementById("type").value}_${currentId}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+};
+
+document.getElementById("solve").onclick = async () => {
+  const type = document.getElementById("type").value;
+
+  // reset UI state
+  document.getElementById("download").disabled = true;
+  document.getElementById("roundFilter").disabled = true;
+  document.getElementById("lastRound").disabled = true;
+  document.getElementById("roundFilter").innerHTML = `<option value="all">All</option>`;
+  lastMatches = [];
+  lastRoundNumber = null;
+  document.getElementById("tbody").innerHTML = "";
+
+  const pill = document.getElementById("pill");
+  pill.textContent = "Solving...";
+  document.getElementById("status").textContent = "Starting solver...";
+
+  const res = await fetch("/api/schedule/solve", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({type})
+  });
+  const data = await res.json();
+  currentId = data.scheduleId;
+
+  while(true){
+    const st = await (await fetch(`/api/schedule/status/${currentId}`)).json();
+    pill.textContent = st.status;
+
+    document.getElementById("status").textContent =
+      `ID ${currentId}: ${st.status}` +
+      (st.score ? ` | score: ${st.score}` : "") +
+      (st.valid !== undefined ? ` | valid: ${st.valid}` : "");
+
+    if(st.status === "FAILED"){
+      return;
+    }
+    if(st.status === "SOLVED") break;
+    await sleep(500);
+  }
+
+  const matches = await (await fetch(`/api/schedule/result/${currentId}`)).json();
+  const planned = matches.filter(m => m.round && m.timeslot);
+
+  planned.forEach(m => m._date = computeMatchDate(m.round.startDate, m.timeslot.dayOfWeek));
+  planned.sort((a,b) =>
+    (a.round.roundNumber - b.round.roundNumber) ||
+    a._date.localeCompare(b._date) ||
+    String(a.timeslot.startTime).localeCompare(String(b.timeslot.startTime))
+  );
+
+  lastMatches = planned;
+
+  // stats
+  const dayCounts = {};
+  let midweekCount = 0;
+  for (const m of planned) {
+    const d = m.timeslot.dayOfWeek;
+    dayCounts[d] = (dayCounts[d] || 0) + 1;
+    if (d === "TUESDAY" || d === "WEDNESDAY") midweekCount++;
+  }
+  const dayText = Object.entries(dayCounts).map(([d,c]) => `${d}:${c}`).join(" | ");
+  document.getElementById("status").textContent +=
+    ` | matches: ${planned.length} | midweek: ${midweekCount} | ${dayText}`;
+
+  document.getElementById("download").disabled = (planned.length === 0);
+
+  // round filter
+  const maxRound = planned.reduce((mx, m) => Math.max(mx, m.round.roundNumber), 0);
+  if (maxRound > 0) {
+    fillRoundFilter(maxRound);
+    document.getElementById("roundFilter").value = "all";
+  }
+
+  // render (initially all)
+  renderTable(planned);
+};
+</script>
+</body>
+</html>

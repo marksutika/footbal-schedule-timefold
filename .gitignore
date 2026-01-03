@@ -145,3 +145,5 @@ secrets.properties
 .local/
 /.m2/
 /vendor/
+/target/
+
