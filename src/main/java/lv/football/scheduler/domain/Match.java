@@ -15,62 +15,38 @@ public class Match {
     private Team homeTeam;
     private Team awayTeam;
 
-    // Decision variables:
-    @PlanningVariable(valueRangeProviderRefs = "roundRange")
+    // Fixed by generator (not planned)
     private Round round;
 
+    // Planned by solver
     @PlanningVariable(valueRangeProviderRefs = "timeslotRange")
     private Timeslot timeslot;
 
-    // Required by Timefold (no-args constructor). Keep it protected.
     protected Match() {
-        // Keep fields null; Timefold will set them.
+        // for Timefold/Jackson
     }
 
-    public Match(UUID id, Team homeTeam, Team awayTeam) {
-        this.id = (id != null) ? id : UUID.randomUUID();
+    public Match(Team homeTeam, Team awayTeam, Round round) {
+        this.id = UUID.randomUUID();
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
-    }
-
-    public Match(Team homeTeam, Team awayTeam) {
-        this(UUID.randomUUID(), homeTeam, awayTeam);
-    }
-
-    // ---------- Getters / setters ----------
-
-    public UUID getId() {
-        return id;
-    }
-
-    public Team getHomeTeam() {
-        return homeTeam;
-    }
-
-    public Team getAwayTeam() {
-        return awayTeam;
-    }
-
-    public Round getRound() {
-        return round;
-    }
-
-    public void setRound(Round round) {
         this.round = round;
     }
 
-    public Timeslot getTimeslot() {
-        return timeslot;
-    }
+    public UUID getId() { return id; }
 
-    public void setTimeslot(Timeslot timeslot) {
-        this.timeslot = timeslot;
-    }
+    public Team getHomeTeam() { return homeTeam; }
+    public Team getAwayTeam() { return awayTeam; }
 
-    /**
-     * Derived: stadium is defined by the home team.
-     * If you want stadium to be a planning decision, remove this method and add a planning variable.
-     */
+    public void setHomeTeam(Team t) { this.homeTeam = t; }
+    public void setAwayTeam(Team t) { this.awayTeam = t; }
+
+    public Round getRound() { return round; }
+    public void setRound(Round round) { this.round = round; }
+
+    public Timeslot getTimeslot() { return timeslot; }
+    public void setTimeslot(Timeslot timeslot) { this.timeslot = timeslot; }
+
     public Stadium getStadium() {
         return (homeTeam != null) ? homeTeam.getStadium() : null;
     }

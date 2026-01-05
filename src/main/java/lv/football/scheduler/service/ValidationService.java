@@ -23,8 +23,8 @@ public class ValidationService {
                 && noStadiumTimeslotOverlap(solution)         // H2
                 && maxOneMatchPerStadiumPerDay(solution)      // H3
                 && minRestDays(solution, 2)                   // H8
-                && noEuropeanTeamsOnEuropeanNights(solution)  // H4
-                && lastRoundAllSunday1500(solution);          // H6
+                && noEuropeanTeamsOnEuropeanNights(solution)  // H4 (will be inactive if no Tue/Wed slots)
+                && lastRoundAllSunday1500(solution);          // H6 (GW38)
     }
 
     private boolean allMatchesPlanned(SchedulingSolution solution) {
@@ -34,7 +34,6 @@ public class ValidationService {
         return true;
     }
 
-    // H1
     private boolean noTeamPlaysTwiceSameDay(SchedulingSolution solution) {
         Set<String> played = new HashSet<>();
         for (Match m : solution.getMatches()) {
@@ -47,7 +46,6 @@ public class ValidationService {
         return true;
     }
 
-    // H2
     private boolean noStadiumTimeslotOverlap(SchedulingSolution solution) {
         Set<String> used = new HashSet<>();
         for (Match m : solution.getMatches()) {
@@ -62,7 +60,6 @@ public class ValidationService {
         return true;
     }
 
-    // H3
     private boolean maxOneMatchPerStadiumPerDay(SchedulingSolution solution) {
         Set<String> used = new HashSet<>();
         for (Match m : solution.getMatches()) {
@@ -76,7 +73,6 @@ public class ValidationService {
         return true;
     }
 
-    // H8
     private boolean minRestDays(SchedulingSolution solution, int minDays) {
         var matches = solution.getMatches();
         for (int i = 0; i < matches.size(); i++) {
@@ -96,7 +92,6 @@ public class ValidationService {
         return true;
     }
 
-    // H4 (same logic as constraint)
     private boolean noEuropeanTeamsOnEuropeanNights(SchedulingSolution solution) {
         EuropeanWeeks weeks = solution.getEuropeanWeeks();
         if (weeks == null) return true;
@@ -118,12 +113,15 @@ public class ValidationService {
         return true;
     }
 
-    // H6
     private boolean lastRoundAllSunday1500(SchedulingSolution solution) {
+        // This enforces the “GW38 all Sunday 15:00” rule for EPL.
+        // For Virsliga it will also enforce the last round similarly if rounds size is 38+;
+        // if you want it only for EPL, tell me and I’ll gate by LeagueRules/teams count.
         int maxRound = 0;
         for (Round r : solution.getRounds()) {
             maxRound = Math.max(maxRound, r.getRoundNumber());
         }
+
         for (Match m : solution.getMatches()) {
             if (m.getRound() == null || m.getTimeslot() == null) continue;
             if (m.getRound().getRoundNumber() != maxRound) continue;

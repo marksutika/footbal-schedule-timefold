@@ -21,15 +21,14 @@ public class DataLoaderService {
             default -> createSmallDemo();
         };
 
-        List<Timeslot> timeslots = createTimeslots(type);
         int roundsCount = roundsCount(data.teams.size(), data.cycles);
         List<Round> rounds = createRounds(roundsCount, type);
-        List<Match> matches = createMatchesRoundRobin(data.teams, data.cycles);
+
+        List<Timeslot> timeslots = createTimeslots(type);
+
+        List<Match> matches = createRoundRobinSchedule(data.teams, rounds, data.cycles);
 
         SchedulingSolution solution = new SchedulingSolution();
-        int matchesPerRound = data.teams.size() / 2;
-        boolean strictRounds = "epl".equals(type);      // strict only for EPL
-        solution.setLeagueRules(new LeagueRules(matchesPerRound, strictRounds));
         solution.setTeams(data.teams);
         solution.setStadiums(data.stadiums);
         solution.setTimeslots(timeslots);
@@ -37,38 +36,43 @@ public class DataLoaderService {
         solution.setMatches(matches);
         solution.setEuropeanWeeks(createEuropeanWeeks());
 
+        // Optional fact (still useful for reporting/debug)
+        solution.setLeagueRules(new LeagueRules(data.teams.size() / 2, "epl".equals(type)));
+
         return solution;
     }
+
+    // ---------------- Timeslots ----------------
 
     private List<Timeslot> createTimeslots(String type) {
         List<Timeslot> timeslots = new ArrayList<>();
 
+        // Fri
         timeslots.add(new Timeslot(DayOfWeek.FRIDAY, LocalTime.of(19, 0), false));
         timeslots.add(new Timeslot(DayOfWeek.FRIDAY, LocalTime.of(21, 30), false));
 
+        // Sat
         timeslots.add(new Timeslot(DayOfWeek.SATURDAY, LocalTime.of(12, 30), false));
         timeslots.add(new Timeslot(DayOfWeek.SATURDAY, LocalTime.of(15, 0), false));
         timeslots.add(new Timeslot(DayOfWeek.SATURDAY, LocalTime.of(18, 30), false));
         timeslots.add(new Timeslot(DayOfWeek.SATURDAY, LocalTime.of(21, 0), false));
 
+        // Sun
         timeslots.add(new Timeslot(DayOfWeek.SUNDAY, LocalTime.of(12, 30), false));
-        timeslots.add(new Timeslot(DayOfWeek.SUNDAY, LocalTime.of(15, 0), false));
+        timeslots.add(new Timeslot(DayOfWeek.SUNDAY, LocalTime.of(15, 0), false)); // needed for last round rule
         timeslots.add(new Timeslot(DayOfWeek.SUNDAY, LocalTime.of(18, 30), false));
         timeslots.add(new Timeslot(DayOfWeek.SUNDAY, LocalTime.of(21, 0), false));
 
+        // Mon
         timeslots.add(new Timeslot(DayOfWeek.MONDAY, LocalTime.of(19, 0), false));
         timeslots.add(new Timeslot(DayOfWeek.MONDAY, LocalTime.of(21, 30), false));
 
-        // Midweek only for EPL (Virslīga weekend-only)
-        if ("epl".equals(type)) {
-            timeslots.add(new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(19, 0), true));
-            timeslots.add(new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(21, 30), true));
-            timeslots.add(new Timeslot(DayOfWeek.WEDNESDAY, LocalTime.of(19, 0), true));
-            timeslots.add(new Timeslot(DayOfWeek.WEDNESDAY, LocalTime.of(21, 30), true));
-        }
+        // No Tue/Wed for EPL/Virsliga by your decision.
 
         return timeslots;
     }
+
+    // ---------------- Rounds ----------------
 
     private int roundsCount(int teamCount, int cycles) {
         int perCycle = (teamCount % 2 == 0) ? (teamCount - 1) : teamCount;
@@ -76,51 +80,114 @@ public class DataLoaderService {
     }
 
     private List<Round> createRounds(int roundsCount, String type) {
-    List<Round> rounds = new ArrayList<>();
+        List<Round> rounds = new ArrayList<>();
 
-    LocalDate start = seasonStartDate(type)
-            .with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)); // keep round start aligned to Monday
+        LocalDate seasonStart = seasonStartDate(type)
+                .with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
 
-    for (int i = 1; i <= roundsCount; i++) {
-        rounds.add(new Round(i, start.plusWeeks(i - 1)));
+        for (int i = 1; i <= roundsCount; i++) {
+            rounds.add(new Round(i, seasonStart.plusWeeks(i - 1)));
+        }
+        return rounds;
     }
-    return rounds;
-}
 
-private LocalDate seasonStartDate(String type) {
-    // Choose a fixed "realistic" season start (you can tune dates).
-    // EPL: late Aug / early Sep
-    // Virslīga: early March
-    int year = LocalDate.now().getYear();
+    private LocalDate seasonStartDate(String type) {
+        int year = LocalDate.now().getYear();
+        return switch (type) {
+            case "epl" -> LocalDate.of(year, 8, 31);
+            case "virsliga" -> LocalDate.of(year, 3, 2);
+            default -> LocalDate.now();
+        };
+    }
 
-    return switch (type) {
-        case "epl" -> LocalDate.of(year, 8, 31);      // around end of August
-        case "virsliga" -> LocalDate.of(year, 3, 2);  // early March
-        default -> LocalDate.now();
-    };
-}
+    // ---------------- Round-robin schedule (circle method) ----------------
 
-    private List<Match> createMatchesRoundRobin(List<Team> teams, int cycles) {
+    private List<Match> createRoundRobinSchedule(List<Team> teams, List<Round> rounds, int cycles) {
+        if (teams.size() % 2 != 0) {
+            throw new IllegalArgumentException("Odd number of teams not supported in this project.");
+        }
+
+        int n = teams.size();
+        int roundsPerCycle = n - 1;
+        if (rounds.size() != cycles * roundsPerCycle) {
+            throw new IllegalStateException("Rounds list size doesn't match cycles*(N-1).");
+        }
+
         List<Match> matches = new ArrayList<>();
+        List<Team> list = new ArrayList<>(teams);
 
-        // cycle 1
-        for (int i = 0; i < teams.size(); i++) {
-            for (int j = i + 1; j < teams.size(); j++) {
-                matches.add(new Match(teams.get(i), teams.get(j)));
-            }
-        }
+        Team fixed = list.get(0);
+        List<Team> rotating = new ArrayList<>(list.subList(1, n));
 
-        // cycles 2..N swap home/away
-        for (int c = 2; c <= cycles; c++) {
-            for (int i = 0; i < teams.size(); i++) {
-                for (int j = i + 1; j < teams.size(); j++) {
-                    matches.add(new Match(teams.get(j), teams.get(i)));
+        for (int cycle = 0; cycle < cycles; cycle++) {
+            boolean swapHomeAway = (cycle % 2 == 1);
+
+            for (int r = 0; r < roundsPerCycle; r++) {
+                Round round = rounds.get(cycle * roundsPerCycle + r);
+
+                List<Team> left = new ArrayList<>();
+                List<Team> right = new ArrayList<>();
+
+                left.add(fixed);
+                left.addAll(rotating.subList(0, (n / 2) - 1));
+
+                right.addAll(rotating.subList((n / 2) - 1, rotating.size()));
+                Collections.reverse(right);
+
+                for (int i = 0; i < n / 2; i++) {
+                    Team t1 = left.get(i);
+                    Team t2 = right.get(i);
+
+                    Team home = swapHomeAway ? t2 : t1;
+                    Team away = swapHomeAway ? t1 : t2;
+
+                    matches.add(new Match(home, away, round));
                 }
+
+                // rotate
+                rotating.add(0, rotating.remove(rotating.size() - 1));
             }
         }
+
+        enforceNoSharedHomeStadiumInLastRound(matches, rounds);
 
         return matches;
     }
+
+    /**
+     * Ensures last round has no duplicate home stadiums (important for Virsliga shared stadiums),
+     * so that "all matches same day/time" doesn't violate H3.
+     */
+    private void enforceNoSharedHomeStadiumInLastRound(List<Match> matches, List<Round> rounds) {
+        int lastRoundNumber = rounds.stream().mapToInt(Round::getRoundNumber).max().orElse(0);
+
+        List<Match> lastRoundMatches = matches.stream()
+                .filter(m -> m.getRound() != null && m.getRound().getRoundNumber() == lastRoundNumber)
+                .toList();
+
+        Set<Stadium> usedHomeStadiums = new HashSet<>();
+
+        for (Match m : lastRoundMatches) {
+            Stadium s = m.getStadium();
+            if (s == null) continue;
+
+            if (!usedHomeStadiums.add(s)) {
+                // swap home/away to move match to the other stadium
+                Team oldHome = m.getHomeTeam();
+                Team oldAway = m.getAwayTeam();
+                m.setHomeTeam(oldAway);
+                m.setAwayTeam(oldHome);
+
+                // register the new home stadium as well
+                Stadium newHomeStadium = m.getStadium();
+                if (newHomeStadium != null) {
+                    usedHomeStadiums.add(newHomeStadium);
+                }
+            }
+        }
+    }
+
+    // ---------------- European weeks ----------------
 
     private EuropeanWeeks createEuropeanWeeks() {
         Set<LocalDate> ucl = Set.of(
@@ -156,6 +223,8 @@ private LocalDate seasonStartDate(String type) {
         return new EuropeanWeeks(ucl, uel, uecl);
     }
 
+    // ---------------- Hardcoded datasets ----------------
+
     private record LeagueData(List<Team> teams, List<Stadium> stadiums, int cycles) {}
 
     private LeagueData createSmallDemo() {
@@ -173,8 +242,7 @@ private LocalDate seasonStartDate(String type) {
             teams.add(t);
         }
 
-        int cycles = 2;
-        return new LeagueData(teams, stadiums, cycles);
+        return new LeagueData(teams, stadiums, 2);
     }
 
     private LeagueData createEplDemo() {
@@ -223,15 +291,13 @@ private LocalDate seasonStartDate(String type) {
                 team("WOL","Wolverhampton Wanderers","MOL", EuropeanCup.NONE, stadiumById)
         );
 
-        int cycles = 2;
-        return new LeagueData(new ArrayList<>(teams), new ArrayList<>(stadiumById.values()), cycles);
+        return new LeagueData(new ArrayList<>(teams), new ArrayList<>(stadiumById.values()), 2);
     }
 
     private LeagueData createVirsligaDemo() {
         Map<String, Stadium> stadiumById = new LinkedHashMap<>();
         stadiumById.put("LNK", new Stadium("LNK Sporta Parks"));
         stadiumById.put("SKO", new Stadium("Skonto Stadions"));
-        stadiumById.put("DAL", new Stadium("J. Daliņa Stadions"));
         stadiumById.put("LIE_DAUG", new Stadium("Daugavas Stadions Liepājā"));
         stadiumById.put("CEL", new Stadium("Celtnieks"));
         stadiumById.put("DGR", new Stadium("Daugavas Stadions Rīgā"));
@@ -251,8 +317,7 @@ private LocalDate seasonStartDate(String type) {
                 team("JEL","Jelgava","ZOC", EuropeanCup.NONE, stadiumById)
         );
 
-        int cycles = 4;
-        return new LeagueData(new ArrayList<>(teams), new ArrayList<>(stadiumById.values()), cycles);
+        return new LeagueData(new ArrayList<>(teams), new ArrayList<>(stadiumById.values()), 4);
     }
 
     private Team team(String code, String name, String stadiumId, EuropeanCup cup, Map<String, Stadium> stadiumById) {
