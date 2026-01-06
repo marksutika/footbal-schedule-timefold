@@ -3,7 +3,7 @@ FROM eclipse-temurin:21-jdk-alpine
 WORKDIR /app
 
 # Copy JAR file from build
-COPY target/football-scheduler-*.jar app.jar
+COPY target/football-scheduler-timefold-*.jar app.jar
 
 # Expose port
 EXPOSE 8080
