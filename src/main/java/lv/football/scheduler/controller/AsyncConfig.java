@@ -1,4 +1,4 @@
-package lv.football.scheduler.config;
+package lv.football.scheduler.controller;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
