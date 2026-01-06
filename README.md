@@ -26,8 +26,6 @@ This project includes:
 
 ---
 
-///
-
 ## Datasets
 
 Supported type values for /api/schedule/solve:
