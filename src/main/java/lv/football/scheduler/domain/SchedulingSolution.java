@@ -12,6 +12,7 @@ import ai.timefold.solver.core.api.domain.solution.ProblemFactProperty;
 
 import java.util.List;
 import java.util.UUID;
+import java.time.LocalDate;
 
 @PlanningSolution
 public class SchedulingSolution {
@@ -32,6 +33,9 @@ public class SchedulingSolution {
 
     @ProblemFactCollectionProperty
     private List<Stadium> stadiums;
+
+    @ProblemFactCollectionProperty
+    private List<LocalDate> forbiddenDates;
 
     @ProblemFactProperty
     private EuropeanWeeks europeanWeeks;
@@ -63,6 +67,9 @@ public class SchedulingSolution {
 
     public List<Stadium> getStadiums() { return stadiums; }
     public void setStadiums(List<Stadium> stadiums) { this.stadiums = stadiums; }
+
+    public List<LocalDate>  getForbiddenDates() { return forbiddenDates; }
+    public void setForbiddenDates(List<LocalDate>  forbiddenDates) { this.forbiddenDates = forbiddenDates; }
 
     public EuropeanWeeks getEuropeanWeeks() { return europeanWeeks; }
     public void setEuropeanWeeks(EuropeanWeeks europeanWeeks) { this.europeanWeeks = europeanWeeks; }

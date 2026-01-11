@@ -35,6 +35,7 @@ public class DataLoaderService {
         solution.setRounds(rounds);
         solution.setMatches(matches);
         solution.setEuropeanWeeks(createEuropeanWeeks());
+        solution.setForbiddenDates(createForbiddenDates());
 
         // Optional fact (still useful for reporting/debug)
         solution.setLeagueRules(new LeagueRules(data.teams.size() / 2, "epl".equals(type)));
@@ -244,6 +245,29 @@ public class DataLoaderService {
 
         return new LeagueData(teams, stadiums, 2);
     }
+
+    private List<java.time.LocalDate> createForbiddenDates() {
+    int year = java.time.LocalDate.now().getYear();
+    // iekļaujam šī gada un nākamā gada svarīgās dienas (drošībai)
+    java.util.List<java.time.LocalDate> list = new java.util.ArrayList<>();
+    // Jaungada diena
+    list.add(java.time.LocalDate.of(year, 1, 1));
+    list.add(java.time.LocalDate.of(year + 1, 1, 1));
+    // Ziemassvētki (24-26 Dec)
+    list.add(java.time.LocalDate.of(year, 12, 24));
+    list.add(java.time.LocalDate.of(year, 12, 25));
+    list.add(java.time.LocalDate.of(year, 12, 26));
+    list.add(java.time.LocalDate.of(year + 1, 12, 24));
+    list.add(java.time.LocalDate.of(year + 1, 12, 25));
+    list.add(java.time.LocalDate.of(year + 1, 12, 26));
+    // Latvijas dzimšanas diena 18. novembris
+    list.add(java.time.LocalDate.of(year, 11, 18));
+    list.add(java.time.LocalDate.of(year + 1, 11, 18));
+    // Random test for virsliga
+    list.add(java.time.LocalDate.of(year, 4, 3));
+    list.add(java.time.LocalDate.of(year, 4, 5));
+    return list;
+}
 
     private LeagueData createEplDemo() {
         Map<String, Stadium> stadiumById = new LinkedHashMap<>();

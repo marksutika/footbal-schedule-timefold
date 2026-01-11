@@ -24,7 +24,8 @@ public class ValidationService {
                 && maxOneMatchPerStadiumPerDay(solution)      // H3
                 && minRestDays(solution, 2)                   // H8
                 && noEuropeanTeamsOnEuropeanNights(solution)  // H4 (will be inactive if no Tue/Wed slots)
-                && lastRoundAllSunday1500(solution);          // H6 (GW38)
+                && lastRoundAllSunday1500(solution)          // H6 (GW38)
+                && noMatchesOnForbiddenDates(solution);
     }
 
     private boolean allMatchesPlanned(SchedulingSolution solution) {
@@ -132,6 +133,19 @@ public class ValidationService {
         }
         return true;
     }
+
+    private boolean noMatchesOnForbiddenDates(SchedulingSolution solution) {
+    var forbidden = solution.getForbiddenDates();
+    if (forbidden == null || forbidden.isEmpty()) return true;
+
+    for (Match m : solution.getMatches()) {
+        if (m.getRound() == null || m.getTimeslot() == null) continue;
+        java.time.LocalDate md = m.getRound().dateFor(m.getTimeslot().getDayOfWeek());
+        if (md == null) continue;
+        if (forbidden.contains(md)) return false;
+    }
+    return true;
+}
 
     private boolean forbiddenForTeam(Team team, LocalDate monday, EuropeanWeeks weeks) {
         if (team == null) return false;

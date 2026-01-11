@@ -25,6 +25,32 @@ public class ScheduleService {
         return solver.solve(problem);
     }
 
+    /*
+    public SchedulingSolution solveSchedule(String type, String strategy, Integer secondsLimit, SchedulingSolution problem) {
+    String variant = (strategy == null) ? "default" : strategy;
+    String configResource = configFileFor(type, variant);
+    SolverFactory<SchedulingSolution> factory = solverFactoryByType.computeIfAbsent(
+            configResource,
+            k -> SolverFactory.createFromXmlResource(configResource)
+    );
+    Solver<SchedulingSolution> solver = factory.buildSolver();
+    return solver.solve(problem);
+}
+
+private String configFileFor(String type, String variant) {
+    // variant: "ch", "tabu", "la" (late acceptance)
+    if ("tabu".equals(variant)) return "solverConfig-tabu.xml";
+    if ("la".equals(variant) || "lateAcceptance".equals(variant)) return "solverConfig-la.xml";
+    if ("ch".equals(variant) || "construction".equals(variant)) return "solverConfig-ch.xml";
+    // fallback: keep old per-type mapping (if you prefer)
+    return switch (type) {
+        case "virsliga" -> "solverConfig-virsliga.xml";
+        case "epl" -> "solverConfig-epl.xml";
+        default -> "solverConfig-small.xml";
+    };
+}
+    */
+
     private String normalizeType(String type) {
         if (type == null) return "small";
         return switch (type) {

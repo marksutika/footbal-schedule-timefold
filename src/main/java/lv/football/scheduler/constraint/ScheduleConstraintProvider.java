@@ -5,6 +5,8 @@ import ai.timefold.solver.core.api.score.stream.Constraint;
 import ai.timefold.solver.core.api.score.stream.ConstraintCollectors;
 import ai.timefold.solver.core.api.score.stream.ConstraintFactory;
 import ai.timefold.solver.core.api.score.stream.ConstraintProvider;
+import ai.timefold.solver.core.api.score.stream.Joiners;
+
 import lv.football.scheduler.domain.EuropeanWeeks;
 import lv.football.scheduler.domain.Match;
 import lv.football.scheduler.domain.Round;
@@ -33,6 +35,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
                 h4_noEuropeanTeamsOnEuropeanNights(cf),
                 h6_lastRoundAllSunday1500(cf),
                 h8_minRestDays(cf),
+                h9_noMatchesOnForbiddenDates(cf),
 
                 // SOFT
                 s2_discourageFridayOrMonday(cf),
@@ -132,6 +135,28 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
                 .penalize(HardSoftScore.ONE_HARD)
                 .asConstraint("H8: Min rest days");
     }
+
+private Constraint h9_noMatchesOnForbiddenDates(ConstraintFactory cf) {
+    return cf.forEach(Match.class)
+            .join(
+                cf.forEach(LocalDate.class),
+                Joiners.filtering((match, forbiddenDate) -> {
+                    if (match.getRound() == null || match.getTimeslot() == null) {
+                        return false;
+                    }
+                    LocalDate md = matchDate(match);
+
+                         // ===== DEBUG (ieliec TIEŠI ŠEIT) =====
+                    System.out.println("MATCH DATE = " + md);
+                    System.out.println("FORBIDDEN = " + forbiddenDate);
+                    // ===================================
+                    return md != null && md.equals(forbiddenDate);
+                })
+            )
+            .penalize(HardSoftScore.ONE_HARD)
+            .asConstraint("H9: No matches on forbidden dates");
+}
+
 
     // ---------------- SOFT ----------------
 
