@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<solver>
+    <solutionClass>lv.football.scheduler.domain.SchedulingSolution</solutionClass>
+    <entityClass>lv.football.scheduler.domain.Match</entityClass>
+
+    <scoreDirectorFactory>
+        <constraintProviderClass>
+            lv.football.scheduler.constraint.ScheduleConstraintProvider
+        </constraintProviderClass>
+    </scoreDirectorFactory>
+
+    <constructionHeuristic/>
+
+    <termination>
+        <secondsSpentLimit>30</secondsSpentLimit>
+    </termination>
+</solver>

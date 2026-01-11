@@ -2,39 +2,71 @@
 
 Spring Boot + Timefold Solver project for optimizing a football championship match schedule under hard and soft constraints.
 
-This project includes:
+This repo contains:
 
-- a REST API for solving schedules,
-- a simple browser UI for running demos,
-- built-in demo datasets (small, virsliga, epl).
+- A REST API for solving schedules and retrieving results
+- A simple browser UI for running demo solves and exporting CSV
+- Demo datasets: `small`, `virsliga`, `epl`
+
+---
+
+## Quick start (Windows PowerShell)
+
+Prereqs:
+- JDK 21
+- Maven 3.9+
+
+Open a terminal in the project directory (where `pom.xml` is) and run:
+
+```powershell
+mvn -DskipTests spring-boot:run
+```
+
+After the app starts, open the UI at:
+
+http://localhost:8080/
+
+API base: `http://localhost:8080/api/schedule`
+
+Stop with Ctrl+C.
+
+---
+
+## REST API (important endpoints)
+
+1) Start solving
+POST /api/schedule/solve
+Body: `{ "type": "virsliga", "variant": "tabu" }`
+- `type` : `small` | `virsliga` | `epl` (defaults to `small`)
+- `variant` (optional): `tabu`, `lateAcceptance`, `hillClimbing`, `simulatedAnnealing`, `constructionHeuristic`
+
+Example (PowerShell):
+```powershell
+Invoke-RestMethod -Method Post -Uri "http://localhost:8080/api/schedule/solve" -ContentType "application/json" -Body '{"type":"virsliga","variant":"constructionHeuristic"}'
+```
+
+2) Poll status
+GET `/api/schedule/status/{scheduleId}`
+
+3) Fetch result matches
+GET `/api/schedule/result/{scheduleId}`
+
+4) Explain a running/completed in-memory solution
+GET `/api/schedule/explain/{scheduleId}`
+
+5) Explain a saved benchmark solution (reads `benchmark-solution-<dataset>-<variant>.json`)
+GET `/explain?dataset=<dataset>&variant=<variant>`
+
+If the saved JSON is corrupted, the explain endpoint attempts a fallback solve (may be slow).
 
 ---
 
 ## Features
 
-- Generates a schedule for a selected dataset
-- Solves using Timefold Solver (HardSoftScore)
-- REST API endpoints to:
-  - start solving
-  - poll status (score + validity)
-  - fetch final match list
-- Browser UI at http://localhost:8080/
-  - dataset selector
-  - solve button
-  - round filter + “last round” shortcut
-  - CSV export
-
----
-
-/
-
-## Datasets
-
-Supported type values for /api/schedule/solve:
-
-- small – 6 teams, 2 cycles (demo)
-- virsliga – 10 teams, 4 cycles (shared stadiums, starts early March)
-- epl – 20 teams, 2 cycles (starts late August)
+- Generate schedules for demo datasets (`small`, `virsliga`, `epl`)
+- Multiple solver variants (tabu, late acceptance, hill climbing, simulated annealing, construction heuristic)
+- Per-constraint explainability for saved and in-memory solutions
+- Benchmark runner that writes CSV and per-variant JSON solutions
 
 ---
 
@@ -43,100 +75,81 @@ Supported type values for /api/schedule/solve:
 Hard constraints (must be satisfied):
 
 - H1: A team cannot play more than once on the same date
-- H2: Stadium overlap forbidden (same stadium + same date + same timeslot)
+- H2: No two matches in same stadium at same timeslot on same date
 - H3: Max 1 match per stadium per day
-- H4 (simplified): European competition teams cannot play domestic matches on Tue/Wed during their European weeks
-- H6: Last round matches must be played on Sunday 15:00
-- H8: Minimum 2 rest days between matches of the same team
+- H4: European competition teams avoid Tue/Wed European nights
+- H6: Last round matches should be on Sunday 15:00
+- H8: Minimum rest days between matches (configurable)
 
 Soft constraints (quality optimization):
 
-- Penalize midweek matches (Tue/Wed) (EPL only – Virslīga is weekend-only)
-- Penalize Friday/Monday matches
+- Penalize Friday/Monday matches and very late kickoffs
+- Discourage too many simultaneous matches (except last round)
 
 ---
 
-## Tech Stack
+## Tech stack
 
 - Java 21
 - Maven
-- Spring Boot 3.2.x
-- Timefold Solver
-- H2 in-memory database (default)
-
----
-
-## Prerequisites
-
-- JDK 21 installed
-- Maven 3.9+ installed (mvn available in PATH)
-
-Verify installation:
-java -version
-javac -version
-mvn -v
-
----
-
-## Run (Windows PowerShell)
-
-Navigate to the Maven project directory (where pom.xml is located):
-
-cd "C:\path\to\football_schedule_timefold\footbal-schedule-timefold"
-mvn spring-boot:run
-
-When you see:
-Tomcat started on port 8080
-Started Application
-
-Open:
-UI: http://localhost:8080/
-API base: http://localhost:8080/api/schedule
-
-Stop the server with Ctrl + C.
-
----
-
-## REST API
-
-Base path: /api/schedule
-
-1. Start solving
-   POST /api/schedule/solve
-   Request body: { "type": "virsliga" }
-   Response: { "scheduleId": 1, "status": "SOLVING" }
-
-PowerShell example:
-Invoke-RestMethod -Method Post -Uri "http://localhost:8080/api/schedule/solve" -ContentType "application/json" -Body '{"type":"virsliga"}'
-
-2. Poll status
-   GET /api/schedule/status/{id}
-   Example response: { "status": "SOLVED", "score": "0hard/-50soft", "valid": true }
-
-3. Get result matches
-   GET /api/schedule/result/{id}
+- Spring Boot 3.x
+- Timefold Solver (HardSoftScore)
+- Jackson (with JavaTime module)
 
 ---
 
 ## Browser UI
 
-Available at: http://localhost:8080/
-The UI calls API endpoints, renders matches in a table and allows CSV export.
-UI file location: src/main/resources/static/index.html
+- Main UI: `src/main/resources/static/index.html` — choose dataset and optimizer variant, run solver, view/export results.
+- Benchmark UI: `src/main/resources/static/benchmark.html` — view benchmark charts and open saved explains. The benchmark page includes a per-dataset variant selector so you can choose which saved variant to explain.
 
 ---
 
-## Solver configuration (per dataset)
+## Benchmark runner
 
-Different datasets use different solver time limits via separate config files:
-src/main/resources/solverConfig-small.xml
-src/main/resources/solverConfig-virsliga.xml
-src/main/resources/solverConfig-epl.xml
+There is a `BenchmarkRunner` class that executes multiple dataset × variant solves and writes `benchmark-results.csv` and `benchmark-solution-<dataset>-<variant>.json` files to the project root.
+
+Run it (example):
+```powershell
+mvn exec:java "-Dexec.mainClass=lv.football.scheduler.benchmark.BenchmarkRunner" "-Dexec.jvmArgs=-Xmx4G"
+```
+
+Notes:
+- The runner now writes JSON files atomically (write to a `.tmp` file then move), to avoid truncated files.
+- The project includes Jackson JavaTime support so `LocalDate` values are serialized/deserialized correctly.
 
 ---
 
-## Notes
+## Solver configuration
 
-- Solving runs asynchronously in a background thread.
-- Results are stored in memory only (restart clears all data).
-- Score interpretation: 0hard/... means no violations (feasible).
+Per-dataset solver configs are located under `src/main/resources`:
+- `solverConfig-small.xml`
+- `solverConfig-virsliga.xml`
+- `solverConfig-epl.xml`
+
+Variants map to additional config files in the same folder (tabu, la, hc, sa, ch).
+
+You can force a variant from the UI or via the `variant` field in the `POST /api/schedule/solve` body.
+
+---
+
+## Forbidden dates and fixes
+
+- Forbidden dates are provided per-dataset by the loader and exposed as problem facts (`SchedulingSolution.forbiddenDates`).
+- The main constraint `H9` joins each `Match` with `LocalDate` facts and penalizes matches scheduled on those dates.
+- A backup guard `H9b` forbids common public holidays per-league (EPL-style winter/New Year or Virsliga local dates).
+- Construction-heuristic (CH) results are post-processed to move trivial forbidden-date placements to nearby valid slots; this is a simple greedy fixer and may be replaced with a stronger solver pass if needed.
+
+---
+
+## Troubleshooting
+
+- If `/explain` returns a parse error, re-run the benchmark runner to regenerate JSONs or use the in-memory explain by running a solve from the UI/API and then calling `/api/schedule/explain/{id}`.
+- If the UI dropdown text is hard to read on some systems, try a different browser or adjust `index.html` select styling.
+
+---
+
+## License & Attribution
+
+This repository is provided as-is for demonstration and research purposes.
+

@@ -1,0 +1,97 @@
+{
+  "id" : "d40db5fd-fb52-4894-8212-efba0de01365",
+  "teams" : [ {
+    "id" : "3350c098-e83c-41be-90aa-b643b3657df2",
+    "code" : "RFS",
+    "name" : "RFS",
+    "stadium" : {
+      "id" : "57a60131-2a96-4147-b436-b48063062da3",
+      "name" : "LNK Sporta Parks"
+    },
+    "europeanCupParticipation" : "UCL"
+  }, {
+    "id" : "d055032d-c416-4004-9569-bdcbf9a3aad0",
+    "code" : "RIG",
+    "name" : "Riga FC",
+    "stadium" : {
+      "id" : "35f42336-0203-4174-85f3-12e328559242",
+      "name" : "Skonto Stadions"
+    },
+    "europeanCupParticipation" : "UECL"
+  }, {
+    "id" : "d5f7ca07-6dff-4189-8034-584e3f1dc882",
+    "code" : "AUD",
+    "name" : "Auda",
+    "stadium" : {
+      "id" : "35f42336-0203-4174-85f3-12e328559242",
+      "name" : "Skonto Stadions"
+    },
+    "europeanCupParticipation" : "UECL"
+  }, {
+    "id" : "7baec32a-05ce-43aa-84ce-827e76ff4f3b",
+    "code" : "SUP",
+    "name" : "SuperNova",
+    "stadium" : {
+      "id" : "57a60131-2a96-4147-b436-b48063062da3",
+      "name" : "LNK Sporta Parks"
+    },
+    "europeanCupParticipation" : "NONE"
+  }, {
+    "id" : "3a6d5da5-fe84-408f-a6ac-0169f3322adc",
+    "code" : "LIE",
+    "name" : "Liepāja",
+    "stadium" : {
+      "id" : "419715da-6c03-4c22-8f92-4ddaa5565361",
+      "name" : "Daugavas Stadions Liepājā"
+    },
+    "europeanCupParticipation" : "NONE"
+  }, {
+    "id" : "caa90c26-a442-487f-9d94-eb25e89b1811",
+    "code" : "GRO",
+    "name" : "Grobiņa",
+    "stadium" : {
+      "id" : "419715da-6c03-4c22-8f92-4ddaa5565361",
+      "name" : "Daugavas Stadions Liepājā"
+    },
+    "europeanCupParticipation" : "NONE"
+  }, {
+    "id" : "e91666f9-0d72-408d-89de-a3f8bd95b62c",
+    "code" : "DAU",
+    "name" : "Daugavpils",
+    "stadium" : {
+      "id" : "93a78554-9e26-4d06-b268-6315affd57e0",
+      "name" : "Celtnieks"
+    },
+    "europeanCupParticipation" : "UECL"
+  }, {
+    "id" : "18d32adc-0cd4-46ee-9117-3061a8cacdc2",
+    "code" : "MET",
+    "name" : "Metta",
+    "stadium" : {
+      "id" : "6a283f05-66a8-46e0-826e-1961464cd24c",
+      "name" : "Daugavas Stadions Rīgā"
+    },
+    "europeanCupParticipation" : "NONE"
+  }, {
+    "id" : "4c223b1d-997a-4e17-8d57-576128b095a2",
+    "code" : "TUK",
+    "name" : "Tukums 2000",
+    "stadium" : {
+      "id" : "14837e9b-c55e-4260-b332-35293f862574",
+      "name" : "Tukuma Stadions"
+    },
+    "europeanCupParticipation" : "NONE"
+  }, {
+    "id" : "83ea982e-7756-4d06-a193-58f98b4d4aac",
+    "code" : "JEL",
+    "name" : "Jelgava",
+    "stadium" : {
+      "id" : "2f487efe-60cc-46d6-9a95-efbc7d104a83",
+      "name" : "Zemgales Olimpiskais Centrs"
+    },
+    "europeanCupParticipation" : "NONE"
+  } ],
+  "rounds" : [ {
+    "id" : "65c88640-2922-423b-87d2-ae67b6b267ce",
+    "roundNumber" : 1,
+    "startDate"

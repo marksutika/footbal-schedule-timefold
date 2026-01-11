@@ -1,0 +1,16 @@
+dataset,variant,timeMillis,hardScore,softScore,teams,matches
+small,tabu,30020,0,-3,6,30
+small,lateAcceptance,30001,0,-3,6,30
+small,hillClimbing,30000,0,-3,6,30
+small,simulatedAnnealing,30001,0,-3,6,30
+small,constructionHeuristic,15,0,-3,6,30
+virsliga,tabu,30001,0,-11,10,180
+virsliga,lateAcceptance,30001,0,-11,10,180
+virsliga,hillClimbing,30001,0,-11,10,180
+virsliga,simulatedAnnealing,30000,0,-11,10,180
+virsliga,constructionHeuristic,87,0,-11,10,180
+epl,tabu,30000,0,-162,20,380
+epl,lateAcceptance,30001,0,-162,20,380
+epl,hillClimbing,29999,0,-162,20,380
+epl,simulatedAnnealing,30001,0,-162,20,380
+epl,constructionHeuristic,297,0,-162,20,380

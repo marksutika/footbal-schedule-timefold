@@ -4,80 +4,51 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Football Scheduler</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#0b1220; --card:#111a2e; --text:#e6e9f2; --muted:#9aa4b2;
-      --accent:#4f8cff; --border:#23304b;
+      --bg:#0b1220; --card:#071129; --card-2:#0f274a; --text:#e6eefc; --muted:#9aa4b2;
+      --accent:#4f8cff; --accent-2:#7c3aed; --glass:rgba(255,255,255,0.04);
     }
     body{
-      margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      background:linear-gradient(180deg,#081024, #0b1220);
+      margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:linear-gradient(160deg,#071129 0%, #071a2a 50%, #08182a 100%);
       color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
     }
     .wrap{ max-width:1100px; margin:0 auto; padding:40px 16px; }
-    h1{ margin:0 0 8px; font-weight:700; letter-spacing:.2px; }
-    .sub{ color:var(--muted); margin-bottom:24px; }
+    header{ display:flex; align-items:center; gap:16px; margin-bottom:18px }
+    h1{ margin:0; font-weight:700; letter-spacing:.2px; font-size:22px }
+    .sub{ color:var(--muted); margin-top:4px; }
 
     .card{
-      background:rgba(17,26,46,.85);
-      border:1px solid var(--border);
-      border-radius:14px;
-      padding:18px;
-      box-shadow:0 12px 40px rgba(0,0,0,.35);
+      background:linear-gradient(180deg,var(--card), rgba(10,22,40,0.6));
+      border:1px solid rgba(255,255,255,0.04);
+      border-radius:14px; padding:18px; box-shadow:0 10px 30px rgba(4,9,20,0.6);
     }
 
-    .controls{
-      display:flex; gap:12px; flex-wrap:wrap; align-items:center;
-      justify-content:space-between;
-    }
+    .controls{ display:flex; gap:12px; flex-wrap:wrap; align-items:center; justify-content:space-between; }
     .left{ display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
     label{ color:var(--muted); font-size:13px; }
-    select, button{
-      border-radius:10px; border:1px solid var(--border);
-      padding:10px 12px; background:#0e1630; color:var(--text);
-      font-size:14px;
-    }
-    button{
-      background:var(--accent);
-      border:none;
-      cursor:pointer;
-      font-weight:600;
-    }
-    button.secondary{
-      background:#0e1630;
-      border:1px solid var(--border);
-      font-weight:600;
-    }
-    button:disabled{ opacity:.5; cursor:not-allowed; }
+    select, button{ border-radius:10px; padding:10px 12px; background:transparent; color:var(--text); font-size:14px; border:1px solid rgba(255,255,255,0.03); }
+    select{ -webkit-appearance:none; -moz-appearance:none; appearance:none; background: rgba(7,17,36,0.6); color:var(--text); }
+    select option{ background-color: rgba(7,17,36,0.98); color:var(--text); }
+    select:focus, button:focus{ outline:2px solid rgba(79,140,255,0.12); }
+    button{ background:linear-gradient(90deg,var(--accent),var(--accent-2)); border:none; cursor:pointer; font-weight:700; color:white }
+    button.secondary{ background:transparent; border:1px solid rgba(255,255,255,0.06); font-weight:600 }
+    button:disabled{ opacity:.45; cursor:not-allowed }
     .status{ margin-top:12px; color:var(--muted); }
 
-    table{
-      width:100%;
-      border-collapse:collapse;
-      margin-top:14px;
-      overflow:hidden;
-      border-radius:12px;
-    }
-    th,td{
-      border-bottom:1px solid var(--border);
-      padding:10px 10px;
-      text-align:left;
-      font-size:14px;
-    }
-    th{ color:#cfe0ff; font-weight:600; background:#0d1630; }
-    tr:hover td{ background:rgba(79,140,255,.06); }
+    table{ width:100%; border-collapse:collapse; margin-top:14px; border-radius:12px; overflow:hidden; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); }
+    th,td{ padding:12px 12px; text-align:left; font-size:14px; }
+    th{ color:#cfe0ff; font-weight:700; background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-bottom:1px solid rgba(255,255,255,0.03) }
+    tr:nth-child(even) td{ background:rgba(255,255,255,0.01) }
+    tr:hover td{ background:rgba(79,140,255,0.06) }
 
-    .pill{
-      display:inline-block; padding:4px 10px; border-radius:999px;
-      border:1px solid var(--border); color:var(--text);
-      background:#0d1630;
-      font-size:12px;
-    }
-
-    .footer{
-      margin-top:18px; color:#9aa4b2; font-size:12px; text-align:center;
-    }
-    .footer a{ color:#9bbcff; }
+    .pill{ display:inline-block; padding:6px 12px; border-radius:999px; background:linear-gradient(90deg,#183b7a,#2b2246); font-weight:600 }
+    .footer{ margin-top:18px; color:var(--muted); font-size:13px; text-align:center }
+    .footer a{ color:var(--accent) }
   </style>
 </head>
 <body>
@@ -97,9 +68,23 @@
             </select>
           </label>
 
+          <label>
+            Optimizer:
+            <select id="variant">
+              <option value="">default</option>
+              <option value="tabu">Tabu Search</option>
+              <option value="lateAcceptance">Late Acceptance</option>
+              <option value="hillClimbing">Hill Climbing</option>
+              <option value="simulatedAnnealing">Simulated Annealing</option>
+              <option value="constructionHeuristic">Construction Heuristic</option>
+            </select>
+          </label>
+
           <button id="solve">Solve</button>
 
           <button id="download" class="secondary" disabled>Download CSV</button>
+
+          <button id="explainBtn" class="secondary" disabled>Explain</button>
 
           <label>
             Round:
@@ -130,6 +115,7 @@
     <div class="footer">
       © 2026 Kaspars Grīnbergs‑Zaļkalns & Marks Sutika —
       <a href="https://github.com/marksutika/footbal-schedule-timefold" target="_blank">GitHub</a>
+      · <a href="/benchmark.html">Benchmark results</a>
     </div>
   </div>
 
@@ -232,8 +218,28 @@ document.getElementById("download").onclick = () => {
   URL.revokeObjectURL(url);
 };
 
+  document.getElementById("explainBtn").onclick = async () => {
+  if (!currentId) return;
+  const res = await fetch(`/api/schedule/explain/${currentId}`);
+  if (res.status === 202) { alert('Solution not ready yet'); return; }
+  if (!res.ok) {
+    const txt = await res.text();
+    alert('Explain failed: ' + txt);
+    return;
+  }
+  const data = await res.json();
+  // show simple modal with formatted JSON
+  const modal = document.createElement('div');
+  modal.style.position='fixed'; modal.style.inset='0'; modal.style.background='rgba(0,0,0,0.6)'; modal.style.display='flex'; modal.style.alignItems='center'; modal.style.justifyContent='center';
+  const box = document.createElement('div'); box.style.width='80%'; box.style.maxWidth='900px'; box.style.background='white'; box.style.color='#0b1220'; box.style.padding='18px'; box.style.borderRadius='12px'; box.style.maxHeight='80%'; box.style.overflow='auto';
+  const pre = document.createElement('pre'); pre.style.whiteSpace='pre-wrap'; pre.style.wordBreak='break-word'; pre.textContent = JSON.stringify(data, null, 2);
+  const close = document.createElement('button'); close.textContent='Close'; close.style.marginTop='12px'; close.onclick = () => document.body.removeChild(modal);
+  box.appendChild(pre); box.appendChild(close); modal.appendChild(box); document.body.appendChild(modal);
+};
+
 document.getElementById("solve").onclick = async () => {
   const type = document.getElementById("type").value;
+    const variant = document.getElementById("variant").value || null;
 
   // reset UI state
   document.getElementById("download").disabled = true;
@@ -251,7 +257,7 @@ document.getElementById("solve").onclick = async () => {
   const res = await fetch("/api/schedule/solve", {
     method: "POST",
     headers: {"Content-Type":"application/json"},
-    body: JSON.stringify({type})
+    body: JSON.stringify({type, variant})
   });
   const data = await res.json();
   currentId = data.scheduleId;
@@ -263,6 +269,7 @@ document.getElementById("solve").onclick = async () => {
     document.getElementById("status").textContent =
       `ID ${currentId}: ${st.status}` +
       (st.score ? ` | score: ${st.score}` : "") +
+      (st.variant ? ` | variant: ${st.variant}` : (variant ? ` | variant: ${variant}` : '')) +
       (st.valid !== undefined ? ` | valid: ${st.valid}` : "");
 
     if(st.status === "FAILED"){
@@ -297,6 +304,7 @@ document.getElementById("solve").onclick = async () => {
     ` | matches: ${planned.length} | midweek: ${midweekCount} | ${dayText}`;
 
   document.getElementById("download").disabled = (planned.length === 0);
+  document.getElementById("explainBtn").disabled = (planned.length === 0);
 
   // round filter
   const maxRound = planned.reduce((mx, m) => Math.max(mx, m.round.roundNumber), 0);

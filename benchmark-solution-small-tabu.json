@@ -1,0 +1,61 @@
+{
+  "id" : "c9912c71-38a2-4614-81f3-98df0799a1e5",
+  "teams" : [ {
+    "id" : "a540c19a-fc66-4406-b79a-ff9b11278498",
+    "code" : "T1",
+    "name" : "Team 1",
+    "stadium" : {
+      "id" : "cb51d9bf-673b-483f-845a-e32e742cf5c8",
+      "name" : "National Stadium"
+    },
+    "europeanCupParticipation" : "NONE"
+  }, {
+    "id" : "853abcc8-8b79-4207-8e70-3b06ff978b8a",
+    "code" : "T2",
+    "name" : "Team 2",
+    "stadium" : {
+      "id" : "38f9482f-f11f-4a4f-9e4a-99ad96eb8224",
+      "name" : "City Arena"
+    },
+    "europeanCupParticipation" : "NONE"
+  }, {
+    "id" : "a9f0abd3-10b3-4a4b-a078-68f94f8ac685",
+    "code" : "T3",
+    "name" : "Team 3",
+    "stadium" : {
+      "id" : "3986eb10-c56e-4dea-893a-d47e25dffb4e",
+      "name" : "Olympic Park"
+    },
+    "europeanCupParticipation" : "NONE"
+  }, {
+    "id" : "9c0ab5e9-e527-4f26-a39d-010e60fa2181",
+    "code" : "T4",
+    "name" : "Team 4",
+    "stadium" : {
+      "id" : "cb51d9bf-673b-483f-845a-e32e742cf5c8",
+      "name" : "National Stadium"
+    },
+    "europeanCupParticipation" : "NONE"
+  }, {
+    "id" : "05fc6abf-257e-4b1f-b1d0-b3c965ac2e36",
+    "code" : "T5",
+    "name" : "Team 5",
+    "stadium" : {
+      "id" : "38f9482f-f11f-4a4f-9e4a-99ad96eb8224",
+      "name" : "City Arena"
+    },
+    "europeanCupParticipation" : "NONE"
+  }, {
+    "id" : "8d7a3538-abf9-49b9-8209-64a598cb8e2e",
+    "code" : "T6",
+    "name" : "Team 6",
+    "stadium" : {
+      "id" : "3986eb10-c56e-4dea-893a-d47e25dffb4e",
+      "name" : "Olympic Park"
+    },
+    "europeanCupParticipation" : "NONE"
+  } ],
+  "rounds" : [ {
+    "id" : "05c5cf79-0641-4134-87dd-d33a45f2090c",
+    "roundNumber" : 1,
+    "startDate"

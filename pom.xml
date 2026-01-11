@@ -56,6 +56,13 @@
             <version>${timefold.version}</version>
         </dependency>
 
+        <!-- XChart for PNG generation of benchmark graphs -->
+        <dependency>
+            <groupId>org.knowm.xchart</groupId>
+            <artifactId>xchart</artifactId>
+            <version>3.8.4</version>
+        </dependency>
+
         <!-- Database Drivers -->
         <dependency>
             <groupId>com.h2database</groupId>

@@ -1,0 +1,187 @@
+{
+  "id" : "61645d67-b87d-4883-86b1-829d81170edf",
+  "teams" : [ {
+    "id" : "086c77f7-26a1-4b51-a953-d493125de0d7",
+    "code" : "ARS",
+    "name" : "Arsenal",
+    "stadium" : {
+      "id" : "ae6b2def-1db3-4bfd-b833-d00159ff18e4",
+      "name" : "Emirates Stadium"
+    },
+    "europeanCupParticipation" : "UCL"
+  }, {
+    "id" : "c2053ad9-c96d-419d-a6cf-767a268c0bb0",
+    "code" : "AVL",
+    "name" : "Aston Villa",
+    "stadium" : {
+      "id" : "a47dea4a-089c-4a26-947e-9666e40bdf82",
+      "name" : "Villa Park"
+    },
+    "europeanCupParticipation" : "NONE"
+  }, {
+    "id" : "baa0cec5-b6a2-4d09-86bc-3a181059cf07",
+    "code" : "BOU",
+    "name" : "Bournemouth",
+    "stadium" : {
+      "id" : "6778961b-08b2-4890-85a4-417e79acac21",
+      "name" : "Vitality Stadium"
+    },
+    "europeanCupParticipation" : "NONE"
+  }, {
+    "id" : "1057978e-7e9a-4bdd-8fad-aef1cffb008a",
+    "code" : "BRE",
+    "name" : "Brentford",
+    "stadium" : {
+      "id" : "07361f5b-7dd5-4bc3-807d-5050803421a3",
+      "name" : "Gtech Community Stadium"
+    },
+    "europeanCupParticipation" : "NONE"
+  }, {
+    "id" : "5497f55d-7ad6-407a-a59c-a46bc453c330",
+    "code" : "BHA",
+    "name" : "Brighton",
+    "stadium" : {
+      "id" : "c2dbfd0b-26d5-4457-9d9e-c3f96b8e74da",
+      "name" : "Amex Stadium"
+    },
+    "europeanCupParticipation" : "NONE"
+  }, {
+    "id" : "a596f49f-efd2-45c1-810c-ccb9a3c6ca7d",
+    "code" : "BUR",
+    "name" : "Burnley",
+    "stadium" : {
+      "id" : "4ab1be6f-9512-4954-a7ba-7b86d01a124a",
+      "name" : "Turf Moor"
+    },
+    "europeanCupParticipation" : "NONE"
+  }, {
+    "id" : "431afcc6-5491-4712-a976-61b80496c6e6",
+    "code" : "CHE",
+    "name" : "Chelsea",
+    "stadium" : {
+      "id" : "cedf88c8-2fbd-46f7-832d-a3e4990f212f",
+      "name" : "Stamford Bridge"
+    },
+    "europeanCupParticipation" : "UCL"
+  }, {
+    "id" : "9301e590-9560-4f0a-908a-8f0003e22ea8",
+    "code" : "CRY",
+    "name" : "Crystal Palace",
+    "stadium" : {
+      "id" : "d4e6fbb5-3088-4f35-898d-fb42783838e8",
+      "name" : "Selhurst Park"
+    },
+    "europeanCupParticipation" : "UECL"
+  }, {
+    "id" : "e0d7c49c-8964-4cd0-8f3d-917b17fd5de4",
+    "code" : "EVE",
+    "name" : "Everton",
+    "stadium" : {
+      "id" : "87e134f0-a3dd-44d2-9a92-dec52acfd1b4",
+      "name" : "Goodison Park"
+    },
+    "europeanCupParticipation" : "NONE"
+  }, {
+    "id" : "8119324a-d4aa-401e-8010-7c116a24cbb0",
+    "code" : "FUL",
+    "name" : "Fulham",
+    "stadium" : {
+      "id" : "0b54994e-8744-4565-aa85-156658f3b641",
+      "name" : "Craven Cottage"
+    },
+    "europeanCupParticipation" : "NONE"
+  }, {
+    "id" : "57408eaf-09e8-4c55-a4fc-f27f53aaccc1",
+    "code" : "LEE",
+    "name" : "Leeds United",
+    "stadium" : {
+      "id" : "1141cff6-216b-4c55-a0ef-38ebce3d95ad",
+      "name" : "Elland Road"
+    },
+    "europeanCupParticipation" : "NONE"
+  }, {
+    "id" : "0c34be5e-a863-4c74-8f66-285929773d45",
+    "code" : "LIV",
+    "name" : "Liverpool",
+    "stadium" : {
+      "id" : "f01d9c27-2918-44cf-b989-a9494ea8c621",
+      "name" : "Anfield"
+    },
+    "europeanCupParticipation" : "UCL"
+  }, {
+    "id" : "362e93f5-1655-45a0-a586-23acfa694e05",
+    "code" : "MCI",
+    "name" : "Manchester City",
+    "stadium" : {
+      "id" : "746227da-293e-4974-ae41-8815657f8302",
+      "name" : "Etihad Stadium"
+    },
+    "europeanCupParticipation" : "UCL"
+  }, {
+    "id" : "666af7e3-5c2e-4e68-95c1-d9e320b54748",
+    "code" : "MUN",
+    "name" : "Manchester United",
+    "stadium" : {
+      "id" : "009910b7-1a15-49b9-823d-a141cfcc3ae6",
+      "name" : "Old Trafford"
+    },
+    "europeanCupParticipation" : "NONE"
+  }, {
+    "id" : "9b9b455e-c635-49e3-beab-523de1a57ea0",
+    "code" : "NEW",
+    "name" : "Newcastle United",
+    "stadium" : {
+      "id" : "4a06d3d3-e08b-40a8-9790-15f0838b9746",
+      "name" : "St James' Park"
+    },
+    "europeanCupParticipation" : "UCL"
+  }, {
+    "id" : "7605a57d-7b80-42aa-9191-17255146412b",
+    "code" : "NFO",
+    "name" : "Nottingham Forest",
+    "stadium" : {
+      "id" : "ba22790c-9d0d-48cf-8cd5-49a17850fe0c",
+      "name" : "City Ground"
+    },
+    "europeanCupParticipation" : "UEL"
+  }, {
+    "id" : "a1ecf70a-3a64-4271-9071-73dbc48396fd",
+    "code" : "SUN",
+    "name" : "Sunderland",
+    "stadium" : {
+      "id" : "f0fc97f6-ac86-47da-a495-08e86c23fa85",
+      "name" : "Stadium of Light"
+    },
+    "europeanCupParticipation" : "NONE"
+  }, {
+    "id" : "ef576796-2041-4a61-9305-a4746b774a6b",
+    "code" : "TOT",
+    "name" : "Tottenham Hotspur",
+    "stadium" : {
+      "id" : "cd7c11d0-de5b-4cf2-92e7-8a2630167d01",
+      "name" : "Tottenham Hotspur Stadium"
+    },
+    "europeanCupParticipation" : "NONE"
+  }, {
+    "id" : "01f234de-61db-4b76-886e-21747281ae84",
+    "code" : "WHU",
+    "name" : "West Ham United",
+    "stadium" : {
+      "id" : "eb3f70e3-948c-437a-84d9-6fd0bc287d86",
+      "name" : "London Stadium"
+    },
+    "europeanCupParticipation" : "NONE"
+  }, {
+    "id" : "63fa7782-f544-4323-8ed7-18285cae6bcf",
+    "code" : "WOL",
+    "name" : "Wolverhampton Wanderers",
+    "stadium" : {
+      "id" : "794c97e1-c6cc-429a-94af-5d781b75b990",
+      "name" : "Molineux Stadium"
+    },
+    "europeanCupParticipation" : "NONE"
+  } ],
+  "rounds" : [ {
+    "id" : "8344ca33-a02e-414f-9c22-493bac95ae2a",
+    "roundNumber" : 1,
+    "startDate"

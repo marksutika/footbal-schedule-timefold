@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Benchmark Results</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body{font-family:Inter,system-ui,Arial,Helvetica,sans-serif;margin:20px;background:linear-gradient(160deg,#071129 0%, #071a2a 50%, #08182a 100%);color:#e6eefc}
+    .wrap{max-width:1100px;margin:0 auto}
+    header{display:flex;justify-content:space-between;align-items:center;gap:16px}
+    h1{margin:8px 0;font-size:22px}
+    .meta{color:#334155}
+    .chartCard{background:linear-gradient(180deg,#071129,#0f274a);border-radius:12px;padding:18px;margin:18px 0;box-shadow:0 12px 40px rgba(0,0,0,.6);border:1px solid rgba(255,255,255,0.03)}
+    .chart{max-width:100%;margin:8px 0}
+    .controls{display:flex;gap:12px;align-items:center}
+    .muted{color:#6b7280;font-size:13px}
+    a.btn{display:inline-block;padding:8px 12px;border-radius:8px;background:linear-gradient(90deg,#2563eb,#7c3aed);color:white;text-decoration:none;font-weight:600}
+    .links{margin-top:10px;display:flex;gap:10px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>Benchmark Results</h1>
+        <div class="meta">Per-dataset comparison of solver variants (time spent and soft score)</div>
+      </div>
+      <div class="controls">
+        <a class="btn" href="/">Back to app</a>
+        <a class="btn" href="/benchmark/data" target="_blank">Raw JSON</a>
+      </div>
+    </header>
+
+    <div id="content">Loading...</div>
+  </div>
+
+  <script>
+    async function load() {
+      const res = await fetch('/benchmark/data');
+      const data = await res.json();
+      const content = document.getElementById('content');
+      content.innerHTML = '';
+
+      for (const [dataset, rows] of Object.entries(data)) {
+        const div = document.createElement('div');
+        div.className = 'chart';
+        const card = document.createElement('div'); card.className='chartCard';
+        const h = document.createElement('h2'); h.textContent = dataset; card.appendChild(h);
+        const p = document.createElement('div'); p.className='muted'; p.textContent = 'Variants tested: ' + rows.map(r=>r.variant).join(', '); card.appendChild(p);
+
+        const canvas = document.createElement('canvas'); canvas.style.width='100%'; canvas.style.maxWidth='900px'; card.appendChild(canvas);
+
+        // variants
+        const labels = rows.map(r => r.variant);
+        const soft = rows.map(r => r.softScore);
+        const times = rows.map(r => Math.round(r.timeMillis/1000)); // seconds
+
+        new Chart(canvas.getContext('2d'), {
+          type: 'bar',
+          data: {
+            labels,
+            datasets: [
+              { label: 'softScore (lower = better)', data: soft, backgroundColor: 'rgba(14,165,233,0.85)', yAxisID: 'score' },
+              { label: 'time (s)', data: times, backgroundColor: 'rgba(124,58,237,0.85)', yAxisID: 'time' }
+            ]
+          },
+          options: {
+            responsive: true,
+            interaction: { mode: 'index', intersect: false },
+            scales: {
+              score: { type: 'linear', position: 'left', beginAtZero:false },
+              time: { type: 'linear', position: 'right', beginAtZero:true }
+            }
+          }
+        });
+
+        const links = document.createElement('div');
+        links.style.marginTop='8px';
+        // Variant selector for explain
+        const sel = document.createElement('select');
+        for (const r of rows) {
+          const o = document.createElement('option'); o.value = r.variant; o.textContent = r.variant; sel.appendChild(o);
+        }
+        sel.style.padding='6px 8px'; sel.style.borderRadius='8px'; sel.style.marginRight='8px';
+        links.appendChild(sel);
+
+        const explainBtn = document.createElement('a');
+        explainBtn.href = '#';
+        explainBtn.textContent = 'Explain (open)';
+        explainBtn.className = 'btn';
+        explainBtn.onclick = (ev) => {
+          ev.preventDefault();
+          const v = sel.value;
+          window.open('/explain?dataset=' + encodeURIComponent(dataset) + '&variant=' + encodeURIComponent(v), '_blank');
+        };
+        links.appendChild(explainBtn);
+        card.appendChild(links);
+
+        content.appendChild(card);
+      }
+    }
+    load().catch(e => { document.getElementById('content').textContent = 'Error: ' + e; });
+  </script>
+</body>
+</html>
