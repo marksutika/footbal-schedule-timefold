@@ -156,7 +156,8 @@ public class DataLoaderService {
     }
 
     /**
-     * Ensures last round has no duplicate home stadiums (important for Virsliga shared stadiums),
+     * Ensures last round has no duplicate home stadiums (important for Virsliga
+     * shared stadiums),
      * so that "all matches same day/time" doesn't violate H3.
      */
     private void enforceNoSharedHomeStadiumInLastRound(List<Match> matches, List<Round> rounds) {
@@ -170,7 +171,8 @@ public class DataLoaderService {
 
         for (Match m : lastRoundMatches) {
             Stadium s = m.getStadium();
-            if (s == null) continue;
+            if (s == null)
+                continue;
 
             if (!usedHomeStadiums.add(s)) {
                 // swap home/away to move match to the other stadium
@@ -199,8 +201,7 @@ public class DataLoaderService {
                 LocalDate.of(2026, 3, 9), LocalDate.of(2026, 3, 16),
                 LocalDate.of(2026, 4, 6), LocalDate.of(2026, 4, 13),
                 LocalDate.of(2026, 4, 27), LocalDate.of(2026, 5, 4),
-                LocalDate.of(2026, 5, 25)
-        );
+                LocalDate.of(2026, 5, 25));
 
         Set<LocalDate> uel = Set.of(
                 LocalDate.of(2025, 9, 22), LocalDate.of(2025, 9, 29), LocalDate.of(2025, 10, 20),
@@ -209,8 +210,7 @@ public class DataLoaderService {
                 LocalDate.of(2026, 2, 16), LocalDate.of(2026, 2, 23),
                 LocalDate.of(2026, 3, 9), LocalDate.of(2026, 3, 16),
                 LocalDate.of(2026, 4, 6), LocalDate.of(2026, 4, 13),
-                LocalDate.of(2026, 5, 18)
-        );
+                LocalDate.of(2026, 5, 18));
 
         Set<LocalDate> uecl = Set.of(
                 LocalDate.of(2025, 9, 29), LocalDate.of(2025, 10, 20), LocalDate.of(2025, 11, 3),
@@ -218,22 +218,21 @@ public class DataLoaderService {
                 LocalDate.of(2026, 2, 16), LocalDate.of(2026, 2, 23),
                 LocalDate.of(2026, 3, 9), LocalDate.of(2026, 3, 16),
                 LocalDate.of(2026, 4, 6), LocalDate.of(2026, 4, 13),
-                LocalDate.of(2026, 5, 25)
-        );
+                LocalDate.of(2026, 5, 25));
 
         return new EuropeanWeeks(ucl, uel, uecl);
     }
 
     // ---------------- Hardcoded datasets ----------------
 
-    private record LeagueData(List<Team> teams, List<Stadium> stadiums, int cycles) {}
+    private record LeagueData(List<Team> teams, List<Stadium> stadiums, int cycles) {
+    }
 
     private LeagueData createSmallDemo() {
         List<Stadium> stadiums = List.of(
                 new Stadium("National Stadium"),
                 new Stadium("City Arena"),
-                new Stadium("Olympic Park")
-        );
+                new Stadium("Olympic Park"));
 
         List<Team> teams = new ArrayList<>();
         for (int i = 1; i <= 6; i++) {
@@ -246,38 +245,71 @@ public class DataLoaderService {
         return new LeagueData(teams, stadiums, 2);
     }
 
-    private List<java.time.LocalDate> createForbiddenDates(String type) {
-    int year = java.time.LocalDate.now().getYear();
-    java.util.List<java.time.LocalDate> list = new java.util.ArrayList<>();
-    if ("epl".equals(type)) {
-        // EPL: forbid New Year and Christmas windows
-        list.add(java.time.LocalDate.of(year, 1, 1));
-        list.add(java.time.LocalDate.of(year + 1, 1, 1));
-        list.add(java.time.LocalDate.of(year, 12, 24));
-        list.add(java.time.LocalDate.of(year, 12, 25));
-        list.add(java.time.LocalDate.of(year, 12, 26));
-        list.add(java.time.LocalDate.of(year + 1, 12, 24));
-        list.add(java.time.LocalDate.of(year + 1, 12, 25));
-        list.add(java.time.LocalDate.of(year + 1, 12, 26));
-        // keep Nov 18 as well (national day)
-        list.add(java.time.LocalDate.of(year, 11, 18));
-        list.add(java.time.LocalDate.of(year + 1, 11, 18));
-    } else if ("virsliga".equals(type)) {
-        // Virsliga: forbid local holidays and test April dates
-        list.add(java.time.LocalDate.of(year, 11, 18));
-        list.add(java.time.LocalDate.of(year + 1, 11, 18));
-        list.add(java.time.LocalDate.of(year, 4, 3));
-        list.add(java.time.LocalDate.of(year, 4, 5));
-        list.add(java.time.LocalDate.of(year + 1, 4, 3));
-        list.add(java.time.LocalDate.of(year + 1, 4, 5));
-    } else {
-        // small/default: include a minimal set
-        list.add(java.time.LocalDate.of(year, 11, 18));
-        list.add(java.time.LocalDate.of(year, 4, 3));
-        list.add(java.time.LocalDate.of(year, 4, 5));
+    private LocalDate orthodoxEaster(int year) {
+        // Meeus/Jones/Butcher for Julian Easter, then convert to Gregorian.
+        int a = year % 4;
+        int b = year % 7;
+        int c = year % 19;
+        int d = (19 * c + 15) % 30;
+        int e = (2 * a + 4 * b - d + 34) % 7;
+
+        int month = (d + e + 114) / 31; // 3=March, 4=April (Julian)
+        int day = ((d + e + 114) % 31) + 1; // Julian calendar day
+
+        LocalDate julianEaster = LocalDate.of(year, month, day).plusDays(13); // Julian->Gregorian (valid 1900-2099)
+        return julianEaster;
     }
-    return list;
-}
+
+    private List<LocalDate> easterWindow(int year) {
+        LocalDate easter = orthodoxEaster(year);
+        // Типичные “неигровые” даты вокруг Пасхи:
+        // Страстная пятница (пятница перед), Пасха (воскресенье), Пасхальный
+        // понедельник
+        return List.of(
+                easter.minusDays(2), // Good Friday
+                easter, // Easter Sunday
+                easter.plusDays(1) // Easter Monday
+        );
+    }
+
+    private List<java.time.LocalDate> createForbiddenDates(String type) {
+        int year = java.time.LocalDate.now().getYear();
+        java.util.List<java.time.LocalDate> list = new java.util.ArrayList<>();
+        list.addAll(easterWindow(year));
+        list.addAll(easterWindow(year + 1));
+        if ("epl".equals(type)) {
+            // EPL: forbid New Year and Christmas windows
+            list.add(java.time.LocalDate.of(year, 1, 1));
+            list.add(java.time.LocalDate.of(year + 1, 1, 1));
+            list.add(java.time.LocalDate.of(year, 12, 24));
+            list.add(java.time.LocalDate.of(year, 12, 25));
+            list.add(java.time.LocalDate.of(year, 12, 26));
+            list.add(java.time.LocalDate.of(year + 1, 12, 24));
+            list.add(java.time.LocalDate.of(year + 1, 12, 25));
+            list.add(java.time.LocalDate.of(year + 1, 12, 26));
+            // keep Nov 18 as well (national day)
+            list.add(java.time.LocalDate.of(year, 11, 18));
+            list.add(java.time.LocalDate.of(year + 1, 11, 18));
+        } else if ("virsliga".equals(type)) {
+            // Virsliga: forbid local holidays and test April dates
+            list.add(java.time.LocalDate.of(year, 11, 18));
+            list.add(java.time.LocalDate.of(year + 1, 11, 18));
+            list.add(java.time.LocalDate.of(year, 5, 4));
+            list.add(java.time.LocalDate.of(year + 1, 5, 4));
+            list.add(java.time.LocalDate.of(year, 6, 23));
+            list.add(java.time.LocalDate.of(year + 1, 6, 23));
+            list.add(java.time.LocalDate.of(year, 6, 24));
+            list.add(java.time.LocalDate.of(year + 1, 6, 24));
+            list.add(java.time.LocalDate.of(year, 6, 25));
+            list.add(java.time.LocalDate.of(year + 1, 6, 25));
+        } else {
+            // small/default: include a minimal set
+            list.add(java.time.LocalDate.of(year, 11, 18));
+            list.add(java.time.LocalDate.of(year, 4, 3));
+            list.add(java.time.LocalDate.of(year, 4, 5));
+        }
+        return list;
+    }
 
     private LeagueData createEplDemo() {
         Map<String, Stadium> stadiumById = new LinkedHashMap<>();
@@ -303,27 +335,26 @@ public class DataLoaderService {
         stadiumById.put("MOL", new Stadium("Molineux Stadium"));
 
         List<Team> teams = List.of(
-                team("ARS","Arsenal","EMI", EuropeanCup.UCL, stadiumById),
-                team("AVL","Aston Villa","VLP", EuropeanCup.NONE, stadiumById),
-                team("BOU","Bournemouth","VIT", EuropeanCup.NONE, stadiumById),
-                team("BRE","Brentford","GTC", EuropeanCup.NONE, stadiumById),
-                team("BHA","Brighton","AMX", EuropeanCup.NONE, stadiumById),
-                team("BUR","Burnley","TUR", EuropeanCup.NONE, stadiumById),
-                team("CHE","Chelsea","STB", EuropeanCup.UCL, stadiumById),
-                team("CRY","Crystal Palace","SLP", EuropeanCup.UECL, stadiumById),
-                team("EVE","Everton","GDS", EuropeanCup.NONE, stadiumById),
-                team("FUL","Fulham","CRC", EuropeanCup.NONE, stadiumById),
-                team("LEE","Leeds United","ELN", EuropeanCup.NONE, stadiumById),
-                team("LIV","Liverpool","ANF", EuropeanCup.UCL, stadiumById),
-                team("MCI","Manchester City","ETH", EuropeanCup.UCL, stadiumById),
-                team("MUN","Manchester United","OTF", EuropeanCup.NONE, stadiumById),
-                team("NEW","Newcastle United","SJP", EuropeanCup.UCL, stadiumById),
-                team("NFO","Nottingham Forest","CGR", EuropeanCup.UEL, stadiumById),
-                team("SUN","Sunderland","SOL", EuropeanCup.NONE, stadiumById),
-                team("TOT","Tottenham Hotspur","THS", EuropeanCup.NONE, stadiumById),
-                team("WHU","West Ham United","LNS", EuropeanCup.NONE, stadiumById),
-                team("WOL","Wolverhampton Wanderers","MOL", EuropeanCup.NONE, stadiumById)
-        );
+                team("ARS", "Arsenal", "EMI", EuropeanCup.UCL, stadiumById),
+                team("AVL", "Aston Villa", "VLP", EuropeanCup.NONE, stadiumById),
+                team("BOU", "Bournemouth", "VIT", EuropeanCup.NONE, stadiumById),
+                team("BRE", "Brentford", "GTC", EuropeanCup.NONE, stadiumById),
+                team("BHA", "Brighton", "AMX", EuropeanCup.NONE, stadiumById),
+                team("BUR", "Burnley", "TUR", EuropeanCup.NONE, stadiumById),
+                team("CHE", "Chelsea", "STB", EuropeanCup.UCL, stadiumById),
+                team("CRY", "Crystal Palace", "SLP", EuropeanCup.UECL, stadiumById),
+                team("EVE", "Everton", "GDS", EuropeanCup.NONE, stadiumById),
+                team("FUL", "Fulham", "CRC", EuropeanCup.NONE, stadiumById),
+                team("LEE", "Leeds United", "ELN", EuropeanCup.NONE, stadiumById),
+                team("LIV", "Liverpool", "ANF", EuropeanCup.UCL, stadiumById),
+                team("MCI", "Manchester City", "ETH", EuropeanCup.UCL, stadiumById),
+                team("MUN", "Manchester United", "OTF", EuropeanCup.NONE, stadiumById),
+                team("NEW", "Newcastle United", "SJP", EuropeanCup.UCL, stadiumById),
+                team("NFO", "Nottingham Forest", "CGR", EuropeanCup.UEL, stadiumById),
+                team("SUN", "Sunderland", "SOL", EuropeanCup.NONE, stadiumById),
+                team("TOT", "Tottenham Hotspur", "THS", EuropeanCup.NONE, stadiumById),
+                team("WHU", "West Ham United", "LNS", EuropeanCup.NONE, stadiumById),
+                team("WOL", "Wolverhampton Wanderers", "MOL", EuropeanCup.NONE, stadiumById));
 
         return new LeagueData(new ArrayList<>(teams), new ArrayList<>(stadiumById.values()), 2);
     }
@@ -339,17 +370,16 @@ public class DataLoaderService {
         stadiumById.put("ZOC", new Stadium("Zemgales Olimpiskais Centrs"));
 
         List<Team> teams = List.of(
-                team("RFS","RFS","LNK", EuropeanCup.UCL, stadiumById),
-                team("RIG","Riga FC","SKO", EuropeanCup.UECL, stadiumById),
-                team("AUD","Auda","SKO", EuropeanCup.UECL, stadiumById),
-                team("SUP","SuperNova","LNK", EuropeanCup.NONE, stadiumById),
-                team("LIE","Liepāja","LIE_DAUG", EuropeanCup.NONE, stadiumById),
-                team("GRO","Grobiņa","LIE_DAUG", EuropeanCup.NONE, stadiumById),
-                team("DAU","Daugavpils","CEL", EuropeanCup.UECL, stadiumById),
-                team("MET","Metta","DGR", EuropeanCup.NONE, stadiumById),
-                team("TUK","Tukums 2000","TUK", EuropeanCup.NONE, stadiumById),
-                team("JEL","Jelgava","ZOC", EuropeanCup.NONE, stadiumById)
-        );
+                team("RFS", "RFS", "LNK", EuropeanCup.UCL, stadiumById),
+                team("RIG", "Riga FC", "SKO", EuropeanCup.UECL, stadiumById),
+                team("AUD", "Auda", "SKO", EuropeanCup.UECL, stadiumById),
+                team("SUP", "SuperNova", "LNK", EuropeanCup.NONE, stadiumById),
+                team("LIE", "Liepāja", "LIE_DAUG", EuropeanCup.NONE, stadiumById),
+                team("GRO", "Grobiņa", "LIE_DAUG", EuropeanCup.NONE, stadiumById),
+                team("DAU", "Daugavpils", "CEL", EuropeanCup.UECL, stadiumById),
+                team("MET", "Metta", "DGR", EuropeanCup.NONE, stadiumById),
+                team("TUK", "Tukums 2000", "TUK", EuropeanCup.NONE, stadiumById),
+                team("JEL", "Jelgava", "ZOC", EuropeanCup.NONE, stadiumById));
 
         return new LeagueData(new ArrayList<>(teams), new ArrayList<>(stadiumById.values()), 4);
     }

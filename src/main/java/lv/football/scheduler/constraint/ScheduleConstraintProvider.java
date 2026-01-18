@@ -8,6 +8,7 @@ import ai.timefold.solver.core.api.score.stream.ConstraintProvider;
 import ai.timefold.solver.core.api.score.stream.Joiners;
 
 import lv.football.scheduler.domain.EuropeanWeeks;
+import lv.football.scheduler.domain.LeagueRules;
 import lv.football.scheduler.domain.Match;
 import lv.football.scheduler.domain.Round;
 import lv.football.scheduler.domain.Stadium;
@@ -27,7 +28,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
 
     @Override
     public Constraint[] defineConstraints(ConstraintFactory cf) {
-        return new Constraint[]{
+        return new Constraint[] {
                 // HARD
                 h1_teamAtMostOncePerDay(cf),
                 h2_noStadiumTimeslotOverlap(cf),
@@ -35,8 +36,12 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
                 h4_noEuropeanTeamsOnEuropeanNights(cf),
                 h6_lastRoundAllSunday1500(cf),
                 h8_minRestDays(cf),
-                    h9_noMatchesOnForbiddenDates(cf),
-                    h9b_hardcodedNoMatchesOnKnownDates(cf),
+
+                // ✅ THIS is the real forbidden-dates rule
+                h9_noMatchesOnForbiddenDates(cf),
+
+                // optional extra guard (can keep or remove)
+                h9b_hardcodedNoMatchesOnKnownDates(cf),
 
                 // SOFT
                 s2_discourageFridayOrMonday(cf),
@@ -62,9 +67,12 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
                     Stadium s2 = m2.getStadium();
                     Timeslot t1 = m1.getTimeslot();
                     Timeslot t2 = m2.getTimeslot();
-                    if (s1 == null || s2 == null || t1 == null || t2 == null) return false;
-                    if (!s1.equals(s2)) return false;
-                    if (!t1.equals(t2)) return false;
+                    if (s1 == null || s2 == null || t1 == null || t2 == null)
+                        return false;
+                    if (!s1.equals(s2))
+                        return false;
+                    if (!t1.equals(t2))
+                        return false;
                     return sameMatchDate(m1, m2);
                 })
                 .penalize(HardSoftScore.ONE_HARD)
@@ -76,8 +84,10 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
                 .filter((m1, m2) -> {
                     Stadium s1 = m1.getStadium();
                     Stadium s2 = m2.getStadium();
-                    if (s1 == null || s2 == null) return false;
-                    if (!s1.equals(s2)) return false;
+                    if (s1 == null || s2 == null)
+                        return false;
+                    if (!s1.equals(s2))
+                        return false;
                     return sameMatchDate(m1, m2);
                 })
                 .penalize(HardSoftScore.ONE_HARD)
@@ -90,13 +100,16 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
                 .join(cf.forEach(EuropeanWeeks.class))
                 .filter((m, weeks) -> {
                     Timeslot t = m.getTimeslot();
-                    if (m.getRound() == null || t == null) return false;
+                    if (m.getRound() == null || t == null)
+                        return false;
 
                     DayOfWeek dow = t.getDayOfWeek();
-                    if (!(dow == DayOfWeek.TUESDAY || dow == DayOfWeek.WEDNESDAY)) return false;
+                    if (!(dow == DayOfWeek.TUESDAY || dow == DayOfWeek.WEDNESDAY))
+                        return false;
 
                     LocalDate date = matchDate(m);
-                    if (date == null) return false;
+                    if (date == null)
+                        return false;
 
                     LocalDate monday = date.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
                     return forbiddenForTeam(m.getHomeTeam(), monday, weeks)
@@ -114,11 +127,12 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
         return cf.forEach(Round.class)
                 .groupBy(ConstraintCollectors.max(Round::getRoundNumber))
                 .join(cf.forEach(Match.class))
-                .filter((maxRoundNumber, match) ->
-                        match.getRound() != null && match.getRound().getRoundNumber() == maxRoundNumber)
+                .filter((maxRoundNumber, match) -> match.getRound() != null
+                        && match.getRound().getRoundNumber() == maxRoundNumber)
                 .filter((maxRoundNumber, match) -> {
                     Timeslot t = match.getTimeslot();
-                    if (t == null) return true;
+                    if (t == null)
+                        return true;
                     return t.getDayOfWeek() != LAST_ROUND_DAY || !LAST_ROUND_TIME.equals(t.getStartTime());
                 })
                 .penalize(HardSoftScore.ONE_HARD)
@@ -137,20 +151,29 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
                 .asConstraint("H8: Min rest days");
     }
 
-private Constraint h9_noMatchesOnForbiddenDates(ConstraintFactory cf) {
-    // Safer approach: join all Match with all forbidden LocalDate facts and filter by equality
-    // This avoids issues when matchDate returns null or when Joiners.equal doesn't match as expected.
-    return cf.forEach(Match.class)
-            .join(cf.forEach(LocalDate.class))
-            .filter((match, forbiddenDate) -> {
-                if (match.getRound() == null || match.getTimeslot() == null) return false;
-                LocalDate md = matchDate(match);
-                return md != null && md.equals(forbiddenDate);
-            })
-            .penalize(HardSoftScore.ONE_HARD)
-            .asConstraint("H9: No matches on forbidden dates");
-}
-
+    /**
+     * ✅ H9: Forbid matches on solution.forbiddenDates.
+     *
+     * IMPORTANT: forbiddenDates MUST be @ProblemFactCollectionProperty in
+     * SchedulingSolution
+     * (у тебя уже так).
+     *
+     * We join Match with LocalDate facts by equality on computed match date.
+     * This is efficient and correct.
+     */
+    private Constraint h9_noMatchesOnForbiddenDates(ConstraintFactory cf) {
+        return cf.forEach(Match.class)
+                .filter(m -> m.getRound() != null && m.getTimeslot() != null)
+                .join(LocalDate.class)
+                .filter((m, forbidden) -> {
+                    LocalDate d1 = matchDate(m); // через dateFor(dayOfWeek)
+                    LocalDate d2 = roundStartDate(m); // “сырая” дата раунда (то, что часто и показывается в UI)
+                    return (d1 != null && d1.equals(forbidden))
+                            || (d2 != null && d2.equals(forbidden));
+                })
+                .penalize(HardSoftScore.ONE_HARD)
+                .asConstraint("H9: No matches on forbidden dates");
+    }
 
     // ---------------- SOFT ----------------
 
@@ -184,12 +207,12 @@ private Constraint h9_noMatchesOnForbiddenDates(ConstraintFactory cf) {
                     DayOfWeek d = m.getTimeslot().getDayOfWeek();
                     LocalTime t = m.getTimeslot().getStartTime();
 
-                    boolean lateFriMon = ( (d == DayOfWeek.FRIDAY || d == DayOfWeek.MONDAY) && t.equals(LocalTime.of(21, 30)) );
+                    boolean lateFriMon = ((d == DayOfWeek.FRIDAY || d == DayOfWeek.MONDAY)
+                            && t.equals(LocalTime.of(21, 30)));
                     boolean lateSunday = (d == DayOfWeek.SUNDAY && t.equals(LocalTime.of(21, 0)));
 
                     return lateFriMon || lateSunday;
                 })
-                // small penalty
                 .penalize(HardSoftScore.ofSoft(1))
                 .asConstraint("S4: Discourage very late kickoffs");
     }
@@ -197,7 +220,8 @@ private Constraint h9_noMatchesOnForbiddenDates(ConstraintFactory cf) {
     // ---------------- Helpers ----------------
 
     private boolean forbiddenForTeam(Team team, LocalDate monday, EuropeanWeeks weeks) {
-        if (team == null) return false;
+        if (team == null)
+            return false;
         return switch (team.getEuropeanCupParticipation()) {
             case UCL -> weeks.getUclMondays().contains(monday);
             case UEL -> weeks.getUelMondays().contains(monday);
@@ -209,7 +233,8 @@ private Constraint h9_noMatchesOnForbiddenDates(ConstraintFactory cf) {
     private boolean sharesTeam(Match m1, Match m2) {
         Team h1 = m1.getHomeTeam();
         Team a1 = m1.getAwayTeam();
-        if (h1 == null || a1 == null) return false;
+        if (h1 == null || a1 == null)
+            return false;
 
         return h1.equals(m2.getHomeTeam()) ||
                 h1.equals(m2.getAwayTeam()) ||
@@ -218,8 +243,16 @@ private Constraint h9_noMatchesOnForbiddenDates(ConstraintFactory cf) {
     }
 
     private LocalDate matchDate(Match m) {
-        if (m.getRound() == null || m.getTimeslot() == null) return null;
+        if (m.getRound() == null || m.getTimeslot() == null)
+            return null;
         return m.getRound().dateFor(m.getTimeslot().getDayOfWeek());
+    }
+
+    private LocalDate roundStartDate(Match m) {
+        if (m.getRound() == null)
+            return null;
+        // подставь правильный геттер, если у тебя он иначе называется
+        return m.getRound().getStartDate();
     }
 
     private boolean sameMatchDate(Match m1, Match m2) {
@@ -231,35 +264,45 @@ private Constraint h9_noMatchesOnForbiddenDates(ConstraintFactory cf) {
     private long daysBetweenMatchDates(Match m1, Match m2) {
         LocalDate d1 = matchDate(m1);
         LocalDate d2 = matchDate(m2);
-        if (d1 == null || d2 == null) return Long.MAX_VALUE;
+        if (d1 == null || d2 == null)
+            return Long.MAX_VALUE;
         return Math.abs(ChronoUnit.DAYS.between(d1, d2));
     }
 
-    // Extra guard: some important public holidays should be forbidden regardless of problem facts.
+    /**
+     * Extra guard: some important public holidays should be forbidden regardless of
+     * problem facts.
+     * Можно удалить, если всё хранится в forbiddenDates.
+     */
     private Constraint h9b_hardcodedNoMatchesOnKnownDates(ConstraintFactory cf) {
-        // Join with LeagueRules to distinguish EPL (strictRounds=true) from other leagues.
         return cf.forEach(Match.class)
-                .join(cf.forEach(lv.football.scheduler.domain.LeagueRules.class))
+                .join(cf.forEach(LeagueRules.class))
                 .filter((m, rules) -> {
-                    if (m.getRound() == null || m.getTimeslot() == null) return false;
+                    if (m.getRound() == null || m.getTimeslot() == null)
+                        return false;
                     LocalDate md = matchDate(m);
-                    if (md == null) return false;
+                    if (md == null)
+                        return false;
                     int mth = md.getMonthValue();
                     int day = md.getDayOfMonth();
+
                     if (rules.isStrictRounds()) {
                         // EPL-style: forbid winter holidays and New Year
-                        if (mth == 1 && day == 1) return true;
-                        if (mth == 12 && (day == 24 || day == 25 || day == 26)) return true;
+                        if (mth == 1 && day == 1)
+                            return true;
+                        if (mth == 12 && (day == 24 || day == 25 || day == 26))
+                            return true;
                         return false;
                     } else {
                         // Virsliga/others: forbid local holidays and test dates (April + Nov 18)
-                        if (mth == 11 && day == 18) return true;
-                        if (mth == 4 && (day == 3 || day == 5)) return true;
+                        if (mth == 11 && day == 18)
+                            return true;
+                        if (mth == 4 && (day == 3 || day == 5))
+                            return true;
                         return false;
                     }
                 })
                 .penalize(HardSoftScore.ONE_HARD)
                 .asConstraint("H9b: No matches on common forbidden dates (per-league)");
     }
-
-        }
+}

@@ -19,18 +19,19 @@ public class ValidationService {
 
     public boolean validateSolution(SchedulingSolution solution) {
         return allMatchesPlanned(solution)
-                && noTeamPlaysTwiceSameDay(solution)          // H1
-                && noStadiumTimeslotOverlap(solution)         // H2
-                && maxOneMatchPerStadiumPerDay(solution)      // H3
-                && minRestDays(solution, 2)                   // H8
-                && noEuropeanTeamsOnEuropeanNights(solution)  // H4 (will be inactive if no Tue/Wed slots)
-                && lastRoundAllSunday1500(solution)          // H6 (GW38)
+                && noTeamPlaysTwiceSameDay(solution) // H1
+                && noStadiumTimeslotOverlap(solution) // H2
+                && maxOneMatchPerStadiumPerDay(solution) // H3
+                && minRestDays(solution, 2) // H8
+                && noEuropeanTeamsOnEuropeanNights(solution) // H4 (will be inactive if no Tue/Wed slots)
+                && lastRoundAllSunday1500(solution) // H6 (GW38)
                 && noMatchesOnForbiddenDates(solution);
     }
 
     private boolean allMatchesPlanned(SchedulingSolution solution) {
         for (Match m : solution.getMatches()) {
-            if (m.getRound() == null || m.getTimeslot() == null) return false;
+            if (m.getRound() == null || m.getTimeslot() == null)
+                return false;
         }
         return true;
     }
@@ -39,10 +40,12 @@ public class ValidationService {
         Set<String> played = new HashSet<>();
         for (Match m : solution.getMatches()) {
             LocalDate date = matchDate(m);
-            if (date == null) continue;
+            if (date == null)
+                continue;
             String hk = m.getHomeTeam().getName() + "|" + date;
             String ak = m.getAwayTeam().getName() + "|" + date;
-            if (!played.add(hk) || !played.add(ak)) return false;
+            if (!played.add(hk) || !played.add(ak))
+                return false;
         }
         return true;
     }
@@ -53,10 +56,12 @@ public class ValidationService {
             Stadium s = m.getStadium();
             LocalDate date = matchDate(m);
             Timeslot t = m.getTimeslot();
-            if (s == null || date == null || t == null) continue;
+            if (s == null || date == null || t == null)
+                continue;
 
             String key = s.getName() + "|" + date + "|" + t.getDayOfWeek() + "|" + t.getStartTime();
-            if (!used.add(key)) return false;
+            if (!used.add(key))
+                return false;
         }
         return true;
     }
@@ -66,10 +71,12 @@ public class ValidationService {
         for (Match m : solution.getMatches()) {
             Stadium s = m.getStadium();
             LocalDate date = matchDate(m);
-            if (s == null || date == null) continue;
+            if (s == null || date == null)
+                continue;
 
             String key = s.getName() + "|" + date;
-            if (!used.add(key)) return false;
+            if (!used.add(key))
+                return false;
         }
         return true;
     }
@@ -80,14 +87,17 @@ public class ValidationService {
             for (int j = i + 1; j < matches.size(); j++) {
                 Match m1 = matches.get(i);
                 Match m2 = matches.get(j);
-                if (!sharesTeam(m1, m2)) continue;
+                if (!sharesTeam(m1, m2))
+                    continue;
 
                 LocalDate d1 = matchDate(m1);
                 LocalDate d2 = matchDate(m2);
-                if (d1 == null || d2 == null) continue;
+                if (d1 == null || d2 == null)
+                    continue;
 
                 long days = Math.abs(ChronoUnit.DAYS.between(d1, d2));
-                if (days < minDays) return false;
+                if (days < minDays)
+                    return false;
             }
         }
         return true;
@@ -95,60 +105,79 @@ public class ValidationService {
 
     private boolean noEuropeanTeamsOnEuropeanNights(SchedulingSolution solution) {
         EuropeanWeeks weeks = solution.getEuropeanWeeks();
-        if (weeks == null) return true;
+        if (weeks == null)
+            return true;
 
         for (Match m : solution.getMatches()) {
             Timeslot t = m.getTimeslot();
-            if (t == null || m.getRound() == null) continue;
+            if (t == null || m.getRound() == null)
+                continue;
 
             DayOfWeek dow = t.getDayOfWeek();
-            if (!(dow == DayOfWeek.TUESDAY || dow == DayOfWeek.WEDNESDAY)) continue;
+            if (!(dow == DayOfWeek.TUESDAY || dow == DayOfWeek.WEDNESDAY))
+                continue;
 
             LocalDate date = matchDate(m);
-            if (date == null) continue;
+            if (date == null)
+                continue;
 
             LocalDate monday = date.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
-            if (forbiddenForTeam(m.getHomeTeam(), monday, weeks)) return false;
-            if (forbiddenForTeam(m.getAwayTeam(), monday, weeks)) return false;
+            if (forbiddenForTeam(m.getHomeTeam(), monday, weeks))
+                return false;
+            if (forbiddenForTeam(m.getAwayTeam(), monday, weeks))
+                return false;
         }
         return true;
     }
 
     private boolean lastRoundAllSunday1500(SchedulingSolution solution) {
         // This enforces the “GW38 all Sunday 15:00” rule for EPL.
-        // For Virsliga it will also enforce the last round similarly if rounds size is 38+;
-        // if you want it only for EPL, tell me and I’ll gate by LeagueRules/teams count.
+        // For Virsliga it will also enforce the last round similarly if rounds size is
+        // 38+;
+        // if you want it only for EPL, tell me and I’ll gate by LeagueRules/teams
+        // count.
         int maxRound = 0;
         for (Round r : solution.getRounds()) {
             maxRound = Math.max(maxRound, r.getRoundNumber());
         }
 
         for (Match m : solution.getMatches()) {
-            if (m.getRound() == null || m.getTimeslot() == null) continue;
-            if (m.getRound().getRoundNumber() != maxRound) continue;
+            if (m.getRound() == null || m.getTimeslot() == null)
+                continue;
+            if (m.getRound().getRoundNumber() != maxRound)
+                continue;
 
             Timeslot t = m.getTimeslot();
-            if (t.getDayOfWeek() != LAST_ROUND_DAY) return false;
-            if (!LAST_ROUND_TIME.equals(t.getStartTime())) return false;
+            if (t.getDayOfWeek() != LAST_ROUND_DAY)
+                return false;
+            if (!LAST_ROUND_TIME.equals(t.getStartTime()))
+                return false;
         }
         return true;
     }
 
     private boolean noMatchesOnForbiddenDates(SchedulingSolution solution) {
-    var forbidden = solution.getForbiddenDates();
-    if (forbidden == null || forbidden.isEmpty()) return true;
+        var forbidden = solution.getForbiddenDates();
+        if (forbidden == null || forbidden.isEmpty())
+            return true;
 
-    for (Match m : solution.getMatches()) {
-        if (m.getRound() == null || m.getTimeslot() == null) continue;
-        java.time.LocalDate md = m.getRound().dateFor(m.getTimeslot().getDayOfWeek());
-        if (md == null) continue;
-        if (forbidden.contains(md)) return false;
+        for (Match m : solution.getMatches()) {
+            if (m.getRound() == null || m.getTimeslot() == null)
+                continue;
+
+            LocalDate d1 = m.getRound().dateFor(m.getTimeslot().getDayOfWeek());
+            LocalDate d2 = m.getRound().getStartDate(); // то же замечание: геттер подставь свой
+
+            if ((d1 != null && forbidden.contains(d1)) || (d2 != null && forbidden.contains(d2))) {
+                return false;
+            }
+        }
+        return true;
     }
-    return true;
-}
 
     private boolean forbiddenForTeam(Team team, LocalDate monday, EuropeanWeeks weeks) {
-        if (team == null) return false;
+        if (team == null)
+            return false;
         return switch (team.getEuropeanCupParticipation()) {
             case UCL -> weeks.getUclMondays().contains(monday);
             case UEL -> weeks.getUelMondays().contains(monday);
@@ -165,7 +194,8 @@ public class ValidationService {
     }
 
     private LocalDate matchDate(Match m) {
-        if (m.getRound() == null || m.getTimeslot() == null) return null;
+        if (m.getRound() == null || m.getTimeslot() == null)
+            return null;
         return m.getRound().dateFor(m.getTimeslot().getDayOfWeek());
     }
 }
