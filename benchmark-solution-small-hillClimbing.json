@@ -1,61 +1,1341 @@
 {
-  "id" : "6d76fa38-80b9-4b20-9834-85299029eaa2",
+  "id" : "5616672d-3c7c-404f-b5ac-7869a677c3f5",
   "teams" : [ {
-    "id" : "2f6a7aaf-4bc7-420e-bcaf-f2378df01f70",
+    "id" : "b171a369-3a6b-4c7c-990e-2c3f6bd81f32",
     "code" : "T1",
     "name" : "Team 1",
     "stadium" : {
-      "id" : "fc9165eb-2723-450f-8582-f0656f721d8e",
+      "id" : "a7ad265b-0478-410c-bb89-fd075fbe9149",
       "name" : "National Stadium"
     },
     "europeanCupParticipation" : "NONE"
   }, {
-    "id" : "4b6b2ad8-cc26-4bf8-947d-10cba45c6649",
+    "id" : "15fce957-d631-4b44-bf0f-ac0d2619e9ea",
     "code" : "T2",
     "name" : "Team 2",
     "stadium" : {
-      "id" : "b0bf622e-b392-469e-a77e-acfa4c5f593e",
+      "id" : "c5e0df7f-d802-4f77-aabd-81a69256fb61",
       "name" : "City Arena"
     },
     "europeanCupParticipation" : "NONE"
   }, {
-    "id" : "f2903b66-64ed-4e65-9c0b-ab04c775f513",
+    "id" : "b4fd9348-11a7-421b-aa1f-9be968955b6c",
     "code" : "T3",
     "name" : "Team 3",
     "stadium" : {
-      "id" : "8eb6480a-e428-4318-b277-cdde185eb9e5",
+      "id" : "3b96d8cd-ddd1-49b8-ba20-a0b9b12a6a64",
       "name" : "Olympic Park"
     },
     "europeanCupParticipation" : "NONE"
   }, {
-    "id" : "6690b877-4424-4484-9911-ef468b41aa72",
+    "id" : "636bb882-fde1-4f34-b545-fadefaad01dd",
     "code" : "T4",
     "name" : "Team 4",
     "stadium" : {
-      "id" : "fc9165eb-2723-450f-8582-f0656f721d8e",
+      "id" : "a7ad265b-0478-410c-bb89-fd075fbe9149",
       "name" : "National Stadium"
     },
     "europeanCupParticipation" : "NONE"
   }, {
-    "id" : "ad598ee5-529b-4678-9f81-ca8c1cde2c9e",
+    "id" : "6eb2d14c-ac87-4c91-8fb7-ec29b9017403",
     "code" : "T5",
     "name" : "Team 5",
     "stadium" : {
-      "id" : "b0bf622e-b392-469e-a77e-acfa4c5f593e",
+      "id" : "c5e0df7f-d802-4f77-aabd-81a69256fb61",
       "name" : "City Arena"
     },
     "europeanCupParticipation" : "NONE"
   }, {
-    "id" : "d4ca9af2-15e0-4ff4-966d-e1510a83ac17",
+    "id" : "9cbe36dd-2dd4-487f-b142-120141e5734e",
     "code" : "T6",
     "name" : "Team 6",
     "stadium" : {
-      "id" : "8eb6480a-e428-4318-b277-cdde185eb9e5",
+      "id" : "3b96d8cd-ddd1-49b8-ba20-a0b9b12a6a64",
       "name" : "Olympic Park"
     },
     "europeanCupParticipation" : "NONE"
   } ],
   "rounds" : [ {
-    "id" : "090351e1-aa7d-43f1-ac23-bb8b788ba2cb",
+    "id" : "ee3527ab-2de1-4d1b-bcfd-35f5dd16917d",
     "roundNumber" : 1,
-    "startDate"
+    "startDate" : "2026-01-19"
+  }, {
+    "id" : "cf98972e-3707-4251-afec-f1ea9567c5af",
+    "roundNumber" : 2,
+    "startDate" : "2026-01-26"
+  }, {
+    "id" : "bd55805f-b54a-480b-9a48-21793dd66052",
+    "roundNumber" : 3,
+    "startDate" : "2026-02-02"
+  }, {
+    "id" : "6974b57d-be41-4f4d-bbfd-d1b7ac9899d4",
+    "roundNumber" : 4,
+    "startDate" : "2026-02-09"
+  }, {
+    "id" : "7b52bb3f-5bef-4d25-b09a-b272b1f4d626",
+    "roundNumber" : 5,
+    "startDate" : "2026-02-16"
+  }, {
+    "id" : "d97fda42-b733-42a6-95bd-a64c54e713eb",
+    "roundNumber" : 6,
+    "startDate" : "2026-02-23"
+  }, {
+    "id" : "a4251b94-3de2-4a28-8c36-3db435a12fb7",
+    "roundNumber" : 7,
+    "startDate" : "2026-03-02"
+  }, {
+    "id" : "ac806b3d-7bc2-4c72-8c14-3ba4a670fdaa",
+    "roundNumber" : 8,
+    "startDate" : "2026-03-09"
+  }, {
+    "id" : "afed352b-ffd6-444d-882d-098ab9c9ac5a",
+    "roundNumber" : 9,
+    "startDate" : "2026-03-16"
+  }, {
+    "id" : "40d29f2b-a0ea-46e0-912b-6fa3a99be627",
+    "roundNumber" : 10,
+    "startDate" : "2026-03-23"
+  } ],
+  "timeslots" : [ {
+    "id" : "31700b82-be5b-49ad-9422-2f0d23b1f13c",
+    "dayOfWeek" : "FRIDAY",
+    "startTime" : "19:00:00",
+    "midweek" : false,
+    "isMidweek" : false
+  }, {
+    "id" : "ff76b19c-5b36-4a3e-8dd8-c9bc810a029c",
+    "dayOfWeek" : "FRIDAY",
+    "startTime" : "21:30:00",
+    "midweek" : false,
+    "isMidweek" : false
+  }, {
+    "id" : "be5c6d2d-41ae-43ba-8756-8b988cbaef8a",
+    "dayOfWeek" : "SATURDAY",
+    "startTime" : "12:30:00",
+    "midweek" : false,
+    "isMidweek" : false
+  }, {
+    "id" : "30b94c27-4741-4477-935b-6ed986caa8a8",
+    "dayOfWeek" : "SATURDAY",
+    "startTime" : "15:00:00",
+    "midweek" : false,
+    "isMidweek" : false
+  }, {
+    "id" : "c28a18ea-67fd-4e22-8667-58daf4c59039",
+    "dayOfWeek" : "SATURDAY",
+    "startTime" : "18:30:00",
+    "midweek" : false,
+    "isMidweek" : false
+  }, {
+    "id" : "bdc6c183-1a04-4290-96d1-aeb1786c6bef",
+    "dayOfWeek" : "SATURDAY",
+    "startTime" : "21:00:00",
+    "midweek" : false,
+    "isMidweek" : false
+  }, {
+    "id" : "1a1a94a4-04ef-48f6-86a9-748e2b8061bd",
+    "dayOfWeek" : "SUNDAY",
+    "startTime" : "12:30:00",
+    "midweek" : false,
+    "isMidweek" : false
+  }, {
+    "id" : "41a37913-9869-4128-b739-bdb7236800d8",
+    "dayOfWeek" : "SUNDAY",
+    "startTime" : "15:00:00",
+    "midweek" : false,
+    "isMidweek" : false
+  }, {
+    "id" : "cabe3ea1-08ee-4c62-b363-6059a77be9a3",
+    "dayOfWeek" : "SUNDAY",
+    "startTime" : "18:30:00",
+    "midweek" : false,
+    "isMidweek" : false
+  }, {
+    "id" : "bffa6b14-f4a8-4861-bbb9-98d8f0b74c3f",
+    "dayOfWeek" : "SUNDAY",
+    "startTime" : "21:00:00",
+    "midweek" : false,
+    "isMidweek" : false
+  }, {
+    "id" : "5414260e-3c61-4bea-ae58-7a5597ede4a4",
+    "dayOfWeek" : "MONDAY",
+    "startTime" : "19:00:00",
+    "midweek" : false,
+    "isMidweek" : false
+  }, {
+    "id" : "ec559d23-9468-418a-b9cd-e00277efc5aa",
+    "dayOfWeek" : "MONDAY",
+    "startTime" : "21:30:00",
+    "midweek" : false,
+    "isMidweek" : false
+  } ],
+  "stadiums" : [ {
+    "id" : "a7ad265b-0478-410c-bb89-fd075fbe9149",
+    "name" : "National Stadium"
+  }, {
+    "id" : "c5e0df7f-d802-4f77-aabd-81a69256fb61",
+    "name" : "City Arena"
+  }, {
+    "id" : "3b96d8cd-ddd1-49b8-ba20-a0b9b12a6a64",
+    "name" : "Olympic Park"
+  } ],
+  "forbiddenDates" : [ "2026-11-18", "2026-04-03", "2026-04-05", "2026-04-10", "2026-04-12", "2026-04-13", "2027-04-30", "2027-05-02", "2027-05-03" ],
+  "europeanWeeks" : {
+    "uclMondays" : [ "2026-02-16", "2025-11-24", "2025-10-20", "2025-09-15", "2026-03-16", "2026-04-13", "2026-03-09", "2026-04-06", "2026-01-26", "2025-12-08", "2025-11-03", "2025-09-29", "2026-05-04", "2026-02-23", "2026-01-19", "2026-04-27", "2026-05-25" ],
+    "uelMondays" : [ "2025-09-22", "2025-12-08", "2025-11-03", "2026-05-18", "2026-02-23", "2026-01-26", "2025-11-24", "2026-04-13", "2026-03-16", "2025-09-29", "2026-04-06", "2026-02-16", "2026-01-19", "2025-10-20", "2026-03-09" ],
+    "ueclMondays" : [ "2025-11-03", "2026-04-13", "2025-12-15", "2026-05-25", "2025-11-24", "2026-04-06", "2025-12-08", "2026-03-16", "2026-02-23", "2026-03-09", "2025-10-20", "2026-02-16", "2025-09-29" ]
+  },
+  "matches" : [ {
+    "id" : "ab999a85-be81-407c-8f15-7ad46e9ec010",
+    "homeTeam" : {
+      "id" : "b171a369-3a6b-4c7c-990e-2c3f6bd81f32",
+      "code" : "T1",
+      "name" : "Team 1",
+      "stadium" : {
+        "id" : "a7ad265b-0478-410c-bb89-fd075fbe9149",
+        "name" : "National Stadium"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "awayTeam" : {
+      "id" : "9cbe36dd-2dd4-487f-b142-120141e5734e",
+      "code" : "T6",
+      "name" : "Team 6",
+      "stadium" : {
+        "id" : "3b96d8cd-ddd1-49b8-ba20-a0b9b12a6a64",
+        "name" : "Olympic Park"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "round" : {
+      "id" : "ee3527ab-2de1-4d1b-bcfd-35f5dd16917d",
+      "roundNumber" : 1,
+      "startDate" : "2026-01-19"
+    },
+    "timeslot" : {
+      "id" : "be5c6d2d-41ae-43ba-8756-8b988cbaef8a",
+      "dayOfWeek" : "SATURDAY",
+      "startTime" : "12:30:00",
+      "midweek" : false,
+      "isMidweek" : false
+    },
+    "stadium" : {
+      "id" : "a7ad265b-0478-410c-bb89-fd075fbe9149",
+      "name" : "National Stadium"
+    }
+  }, {
+    "id" : "8cc6c79e-0e0d-4d79-977c-9bbef3b01897",
+    "homeTeam" : {
+      "id" : "15fce957-d631-4b44-bf0f-ac0d2619e9ea",
+      "code" : "T2",
+      "name" : "Team 2",
+      "stadium" : {
+        "id" : "c5e0df7f-d802-4f77-aabd-81a69256fb61",
+        "name" : "City Arena"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "awayTeam" : {
+      "id" : "6eb2d14c-ac87-4c91-8fb7-ec29b9017403",
+      "code" : "T5",
+      "name" : "Team 5",
+      "stadium" : {
+        "id" : "c5e0df7f-d802-4f77-aabd-81a69256fb61",
+        "name" : "City Arena"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "round" : {
+      "id" : "ee3527ab-2de1-4d1b-bcfd-35f5dd16917d",
+      "roundNumber" : 1,
+      "startDate" : "2026-01-19"
+    },
+    "timeslot" : {
+      "id" : "30b94c27-4741-4477-935b-6ed986caa8a8",
+      "dayOfWeek" : "SATURDAY",
+      "startTime" : "15:00:00",
+      "midweek" : false,
+      "isMidweek" : false
+    },
+    "stadium" : {
+      "id" : "c5e0df7f-d802-4f77-aabd-81a69256fb61",
+      "name" : "City Arena"
+    }
+  }, {
+    "id" : "c8b84eab-ccc2-455c-ac09-31d51e73a9fb",
+    "homeTeam" : {
+      "id" : "b4fd9348-11a7-421b-aa1f-9be968955b6c",
+      "code" : "T3",
+      "name" : "Team 3",
+      "stadium" : {
+        "id" : "3b96d8cd-ddd1-49b8-ba20-a0b9b12a6a64",
+        "name" : "Olympic Park"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "awayTeam" : {
+      "id" : "636bb882-fde1-4f34-b545-fadefaad01dd",
+      "code" : "T4",
+      "name" : "Team 4",
+      "stadium" : {
+        "id" : "a7ad265b-0478-410c-bb89-fd075fbe9149",
+        "name" : "National Stadium"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "round" : {
+      "id" : "ee3527ab-2de1-4d1b-bcfd-35f5dd16917d",
+      "roundNumber" : 1,
+      "startDate" : "2026-01-19"
+    },
+    "timeslot" : {
+      "id" : "c28a18ea-67fd-4e22-8667-58daf4c59039",
+      "dayOfWeek" : "SATURDAY",
+      "startTime" : "18:30:00",
+      "midweek" : false,
+      "isMidweek" : false
+    },
+    "stadium" : {
+      "id" : "3b96d8cd-ddd1-49b8-ba20-a0b9b12a6a64",
+      "name" : "Olympic Park"
+    }
+  }, {
+    "id" : "b03a902b-3cc0-4b61-b88e-98fd949eade5",
+    "homeTeam" : {
+      "id" : "b171a369-3a6b-4c7c-990e-2c3f6bd81f32",
+      "code" : "T1",
+      "name" : "Team 1",
+      "stadium" : {
+        "id" : "a7ad265b-0478-410c-bb89-fd075fbe9149",
+        "name" : "National Stadium"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "awayTeam" : {
+      "id" : "6eb2d14c-ac87-4c91-8fb7-ec29b9017403",
+      "code" : "T5",
+      "name" : "Team 5",
+      "stadium" : {
+        "id" : "c5e0df7f-d802-4f77-aabd-81a69256fb61",
+        "name" : "City Arena"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "round" : {
+      "id" : "cf98972e-3707-4251-afec-f1ea9567c5af",
+      "roundNumber" : 2,
+      "startDate" : "2026-01-26"
+    },
+    "timeslot" : {
+      "id" : "be5c6d2d-41ae-43ba-8756-8b988cbaef8a",
+      "dayOfWeek" : "SATURDAY",
+      "startTime" : "12:30:00",
+      "midweek" : false,
+      "isMidweek" : false
+    },
+    "stadium" : {
+      "id" : "a7ad265b-0478-410c-bb89-fd075fbe9149",
+      "name" : "National Stadium"
+    }
+  }, {
+    "id" : "039804b7-1c7a-4c3d-b3e2-86df644c80ee",
+    "homeTeam" : {
+      "id" : "9cbe36dd-2dd4-487f-b142-120141e5734e",
+      "code" : "T6",
+      "name" : "Team 6",
+      "stadium" : {
+        "id" : "3b96d8cd-ddd1-49b8-ba20-a0b9b12a6a64",
+        "name" : "Olympic Park"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "awayTeam" : {
+      "id" : "636bb882-fde1-4f34-b545-fadefaad01dd",
+      "code" : "T4",
+      "name" : "Team 4",
+      "stadium" : {
+        "id" : "a7ad265b-0478-410c-bb89-fd075fbe9149",
+        "name" : "National Stadium"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "round" : {
+      "id" : "cf98972e-3707-4251-afec-f1ea9567c5af",
+      "roundNumber" : 2,
+      "startDate" : "2026-01-26"
+    },
+    "timeslot" : {
+      "id" : "30b94c27-4741-4477-935b-6ed986caa8a8",
+      "dayOfWeek" : "SATURDAY",
+      "startTime" : "15:00:00",
+      "midweek" : false,
+      "isMidweek" : false
+    },
+    "stadium" : {
+      "id" : "3b96d8cd-ddd1-49b8-ba20-a0b9b12a6a64",
+      "name" : "Olympic Park"
+    }
+  }, {
+    "id" : "de1a323f-e6b4-4ce2-9cf1-7f53b369d82c",
+    "homeTeam" : {
+      "id" : "15fce957-d631-4b44-bf0f-ac0d2619e9ea",
+      "code" : "T2",
+      "name" : "Team 2",
+      "stadium" : {
+        "id" : "c5e0df7f-d802-4f77-aabd-81a69256fb61",
+        "name" : "City Arena"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "awayTeam" : {
+      "id" : "b4fd9348-11a7-421b-aa1f-9be968955b6c",
+      "code" : "T3",
+      "name" : "Team 3",
+      "stadium" : {
+        "id" : "3b96d8cd-ddd1-49b8-ba20-a0b9b12a6a64",
+        "name" : "Olympic Park"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "round" : {
+      "id" : "cf98972e-3707-4251-afec-f1ea9567c5af",
+      "roundNumber" : 2,
+      "startDate" : "2026-01-26"
+    },
+    "timeslot" : {
+      "id" : "c28a18ea-67fd-4e22-8667-58daf4c59039",
+      "dayOfWeek" : "SATURDAY",
+      "startTime" : "18:30:00",
+      "midweek" : false,
+      "isMidweek" : false
+    },
+    "stadium" : {
+      "id" : "c5e0df7f-d802-4f77-aabd-81a69256fb61",
+      "name" : "City Arena"
+    }
+  }, {
+    "id" : "9fd24def-e8ab-486b-a99e-32e1130639f1",
+    "homeTeam" : {
+      "id" : "b171a369-3a6b-4c7c-990e-2c3f6bd81f32",
+      "code" : "T1",
+      "name" : "Team 1",
+      "stadium" : {
+        "id" : "a7ad265b-0478-410c-bb89-fd075fbe9149",
+        "name" : "National Stadium"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "awayTeam" : {
+      "id" : "636bb882-fde1-4f34-b545-fadefaad01dd",
+      "code" : "T4",
+      "name" : "Team 4",
+      "stadium" : {
+        "id" : "a7ad265b-0478-410c-bb89-fd075fbe9149",
+        "name" : "National Stadium"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "round" : {
+      "id" : "bd55805f-b54a-480b-9a48-21793dd66052",
+      "roundNumber" : 3,
+      "startDate" : "2026-02-02"
+    },
+    "timeslot" : {
+      "id" : "be5c6d2d-41ae-43ba-8756-8b988cbaef8a",
+      "dayOfWeek" : "SATURDAY",
+      "startTime" : "12:30:00",
+      "midweek" : false,
+      "isMidweek" : false
+    },
+    "stadium" : {
+      "id" : "a7ad265b-0478-410c-bb89-fd075fbe9149",
+      "name" : "National Stadium"
+    }
+  }, {
+    "id" : "35f99510-ed38-4bda-bc30-480961f0fdf0",
+    "homeTeam" : {
+      "id" : "6eb2d14c-ac87-4c91-8fb7-ec29b9017403",
+      "code" : "T5",
+      "name" : "Team 5",
+      "stadium" : {
+        "id" : "c5e0df7f-d802-4f77-aabd-81a69256fb61",
+        "name" : "City Arena"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "awayTeam" : {
+      "id" : "b4fd9348-11a7-421b-aa1f-9be968955b6c",
+      "code" : "T3",
+      "name" : "Team 3",
+      "stadium" : {
+        "id" : "3b96d8cd-ddd1-49b8-ba20-a0b9b12a6a64",
+        "name" : "Olympic Park"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "round" : {
+      "id" : "bd55805f-b54a-480b-9a48-21793dd66052",
+      "roundNumber" : 3,
+      "startDate" : "2026-02-02"
+    },
+    "timeslot" : {
+      "id" : "30b94c27-4741-4477-935b-6ed986caa8a8",
+      "dayOfWeek" : "SATURDAY",
+      "startTime" : "15:00:00",
+      "midweek" : false,
+      "isMidweek" : false
+    },
+    "stadium" : {
+      "id" : "c5e0df7f-d802-4f77-aabd-81a69256fb61",
+      "name" : "City Arena"
+    }
+  }, {
+    "id" : "33f4c60c-f99b-4ad4-aa58-ad04b4b0114d",
+    "homeTeam" : {
+      "id" : "9cbe36dd-2dd4-487f-b142-120141e5734e",
+      "code" : "T6",
+      "name" : "Team 6",
+      "stadium" : {
+        "id" : "3b96d8cd-ddd1-49b8-ba20-a0b9b12a6a64",
+        "name" : "Olympic Park"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "awayTeam" : {
+      "id" : "15fce957-d631-4b44-bf0f-ac0d2619e9ea",
+      "code" : "T2",
+      "name" : "Team 2",
+      "stadium" : {
+        "id" : "c5e0df7f-d802-4f77-aabd-81a69256fb61",
+        "name" : "City Arena"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "round" : {
+      "id" : "bd55805f-b54a-480b-9a48-21793dd66052",
+      "roundNumber" : 3,
+      "startDate" : "2026-02-02"
+    },
+    "timeslot" : {
+      "id" : "c28a18ea-67fd-4e22-8667-58daf4c59039",
+      "dayOfWeek" : "SATURDAY",
+      "startTime" : "18:30:00",
+      "midweek" : false,
+      "isMidweek" : false
+    },
+    "stadium" : {
+      "id" : "3b96d8cd-ddd1-49b8-ba20-a0b9b12a6a64",
+      "name" : "Olympic Park"
+    }
+  }, {
+    "id" : "604fa7c3-cbc2-4630-9786-bbd363a92dba",
+    "homeTeam" : {
+      "id" : "b171a369-3a6b-4c7c-990e-2c3f6bd81f32",
+      "code" : "T1",
+      "name" : "Team 1",
+      "stadium" : {
+        "id" : "a7ad265b-0478-410c-bb89-fd075fbe9149",
+        "name" : "National Stadium"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "awayTeam" : {
+      "id" : "b4fd9348-11a7-421b-aa1f-9be968955b6c",
+      "code" : "T3",
+      "name" : "Team 3",
+      "stadium" : {
+        "id" : "3b96d8cd-ddd1-49b8-ba20-a0b9b12a6a64",
+        "name" : "Olympic Park"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "round" : {
+      "id" : "6974b57d-be41-4f4d-bbfd-d1b7ac9899d4",
+      "roundNumber" : 4,
+      "startDate" : "2026-02-09"
+    },
+    "timeslot" : {
+      "id" : "be5c6d2d-41ae-43ba-8756-8b988cbaef8a",
+      "dayOfWeek" : "SATURDAY",
+      "startTime" : "12:30:00",
+      "midweek" : false,
+      "isMidweek" : false
+    },
+    "stadium" : {
+      "id" : "a7ad265b-0478-410c-bb89-fd075fbe9149",
+      "name" : "National Stadium"
+    }
+  }, {
+    "id" : "dd416db6-1890-40eb-a7d0-868b5b67deb2",
+    "homeTeam" : {
+      "id" : "636bb882-fde1-4f34-b545-fadefaad01dd",
+      "code" : "T4",
+      "name" : "Team 4",
+      "stadium" : {
+        "id" : "a7ad265b-0478-410c-bb89-fd075fbe9149",
+        "name" : "National Stadium"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "awayTeam" : {
+      "id" : "15fce957-d631-4b44-bf0f-ac0d2619e9ea",
+      "code" : "T2",
+      "name" : "Team 2",
+      "stadium" : {
+        "id" : "c5e0df7f-d802-4f77-aabd-81a69256fb61",
+        "name" : "City Arena"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "round" : {
+      "id" : "6974b57d-be41-4f4d-bbfd-d1b7ac9899d4",
+      "roundNumber" : 4,
+      "startDate" : "2026-02-09"
+    },
+    "timeslot" : {
+      "id" : "1a1a94a4-04ef-48f6-86a9-748e2b8061bd",
+      "dayOfWeek" : "SUNDAY",
+      "startTime" : "12:30:00",
+      "midweek" : false,
+      "isMidweek" : false
+    },
+    "stadium" : {
+      "id" : "a7ad265b-0478-410c-bb89-fd075fbe9149",
+      "name" : "National Stadium"
+    }
+  }, {
+    "id" : "e00f4d68-7455-4d99-a2c8-cd94371edcf1",
+    "homeTeam" : {
+      "id" : "6eb2d14c-ac87-4c91-8fb7-ec29b9017403",
+      "code" : "T5",
+      "name" : "Team 5",
+      "stadium" : {
+        "id" : "c5e0df7f-d802-4f77-aabd-81a69256fb61",
+        "name" : "City Arena"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "awayTeam" : {
+      "id" : "9cbe36dd-2dd4-487f-b142-120141e5734e",
+      "code" : "T6",
+      "name" : "Team 6",
+      "stadium" : {
+        "id" : "3b96d8cd-ddd1-49b8-ba20-a0b9b12a6a64",
+        "name" : "Olympic Park"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "round" : {
+      "id" : "6974b57d-be41-4f4d-bbfd-d1b7ac9899d4",
+      "roundNumber" : 4,
+      "startDate" : "2026-02-09"
+    },
+    "timeslot" : {
+      "id" : "30b94c27-4741-4477-935b-6ed986caa8a8",
+      "dayOfWeek" : "SATURDAY",
+      "startTime" : "15:00:00",
+      "midweek" : false,
+      "isMidweek" : false
+    },
+    "stadium" : {
+      "id" : "c5e0df7f-d802-4f77-aabd-81a69256fb61",
+      "name" : "City Arena"
+    }
+  }, {
+    "id" : "31b824a2-f689-4d1d-90f2-60c27bd68caf",
+    "homeTeam" : {
+      "id" : "b171a369-3a6b-4c7c-990e-2c3f6bd81f32",
+      "code" : "T1",
+      "name" : "Team 1",
+      "stadium" : {
+        "id" : "a7ad265b-0478-410c-bb89-fd075fbe9149",
+        "name" : "National Stadium"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "awayTeam" : {
+      "id" : "15fce957-d631-4b44-bf0f-ac0d2619e9ea",
+      "code" : "T2",
+      "name" : "Team 2",
+      "stadium" : {
+        "id" : "c5e0df7f-d802-4f77-aabd-81a69256fb61",
+        "name" : "City Arena"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "round" : {
+      "id" : "7b52bb3f-5bef-4d25-b09a-b272b1f4d626",
+      "roundNumber" : 5,
+      "startDate" : "2026-02-16"
+    },
+    "timeslot" : {
+      "id" : "be5c6d2d-41ae-43ba-8756-8b988cbaef8a",
+      "dayOfWeek" : "SATURDAY",
+      "startTime" : "12:30:00",
+      "midweek" : false,
+      "isMidweek" : false
+    },
+    "stadium" : {
+      "id" : "a7ad265b-0478-410c-bb89-fd075fbe9149",
+      "name" : "National Stadium"
+    }
+  }, {
+    "id" : "cb22065e-3bbd-431c-8b75-30b36882e167",
+    "homeTeam" : {
+      "id" : "b4fd9348-11a7-421b-aa1f-9be968955b6c",
+      "code" : "T3",
+      "name" : "Team 3",
+      "stadium" : {
+        "id" : "3b96d8cd-ddd1-49b8-ba20-a0b9b12a6a64",
+        "name" : "Olympic Park"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "awayTeam" : {
+      "id" : "9cbe36dd-2dd4-487f-b142-120141e5734e",
+      "code" : "T6",
+      "name" : "Team 6",
+      "stadium" : {
+        "id" : "3b96d8cd-ddd1-49b8-ba20-a0b9b12a6a64",
+        "name" : "Olympic Park"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "round" : {
+      "id" : "7b52bb3f-5bef-4d25-b09a-b272b1f4d626",
+      "roundNumber" : 5,
+      "startDate" : "2026-02-16"
+    },
+    "timeslot" : {
+      "id" : "30b94c27-4741-4477-935b-6ed986caa8a8",
+      "dayOfWeek" : "SATURDAY",
+      "startTime" : "15:00:00",
+      "midweek" : false,
+      "isMidweek" : false
+    },
+    "stadium" : {
+      "id" : "3b96d8cd-ddd1-49b8-ba20-a0b9b12a6a64",
+      "name" : "Olympic Park"
+    }
+  }, {
+    "id" : "9f4e89e4-2638-47da-946e-850435d7284d",
+    "homeTeam" : {
+      "id" : "636bb882-fde1-4f34-b545-fadefaad01dd",
+      "code" : "T4",
+      "name" : "Team 4",
+      "stadium" : {
+        "id" : "a7ad265b-0478-410c-bb89-fd075fbe9149",
+        "name" : "National Stadium"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "awayTeam" : {
+      "id" : "6eb2d14c-ac87-4c91-8fb7-ec29b9017403",
+      "code" : "T5",
+      "name" : "Team 5",
+      "stadium" : {
+        "id" : "c5e0df7f-d802-4f77-aabd-81a69256fb61",
+        "name" : "City Arena"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "round" : {
+      "id" : "7b52bb3f-5bef-4d25-b09a-b272b1f4d626",
+      "roundNumber" : 5,
+      "startDate" : "2026-02-16"
+    },
+    "timeslot" : {
+      "id" : "1a1a94a4-04ef-48f6-86a9-748e2b8061bd",
+      "dayOfWeek" : "SUNDAY",
+      "startTime" : "12:30:00",
+      "midweek" : false,
+      "isMidweek" : false
+    },
+    "stadium" : {
+      "id" : "a7ad265b-0478-410c-bb89-fd075fbe9149",
+      "name" : "National Stadium"
+    }
+  }, {
+    "id" : "ce1fbf8e-270c-4ce0-8883-483587f7a7e5",
+    "homeTeam" : {
+      "id" : "9cbe36dd-2dd4-487f-b142-120141e5734e",
+      "code" : "T6",
+      "name" : "Team 6",
+      "stadium" : {
+        "id" : "3b96d8cd-ddd1-49b8-ba20-a0b9b12a6a64",
+        "name" : "Olympic Park"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "awayTeam" : {
+      "id" : "b171a369-3a6b-4c7c-990e-2c3f6bd81f32",
+      "code" : "T1",
+      "name" : "Team 1",
+      "stadium" : {
+        "id" : "a7ad265b-0478-410c-bb89-fd075fbe9149",
+        "name" : "National Stadium"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "round" : {
+      "id" : "d97fda42-b733-42a6-95bd-a64c54e713eb",
+      "roundNumber" : 6,
+      "startDate" : "2026-02-23"
+    },
+    "timeslot" : {
+      "id" : "be5c6d2d-41ae-43ba-8756-8b988cbaef8a",
+      "dayOfWeek" : "SATURDAY",
+      "startTime" : "12:30:00",
+      "midweek" : false,
+      "isMidweek" : false
+    },
+    "stadium" : {
+      "id" : "3b96d8cd-ddd1-49b8-ba20-a0b9b12a6a64",
+      "name" : "Olympic Park"
+    }
+  }, {
+    "id" : "ec85a36f-2d9a-4585-b2b4-f486cff8dc89",
+    "homeTeam" : {
+      "id" : "6eb2d14c-ac87-4c91-8fb7-ec29b9017403",
+      "code" : "T5",
+      "name" : "Team 5",
+      "stadium" : {
+        "id" : "c5e0df7f-d802-4f77-aabd-81a69256fb61",
+        "name" : "City Arena"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "awayTeam" : {
+      "id" : "15fce957-d631-4b44-bf0f-ac0d2619e9ea",
+      "code" : "T2",
+      "name" : "Team 2",
+      "stadium" : {
+        "id" : "c5e0df7f-d802-4f77-aabd-81a69256fb61",
+        "name" : "City Arena"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "round" : {
+      "id" : "d97fda42-b733-42a6-95bd-a64c54e713eb",
+      "roundNumber" : 6,
+      "startDate" : "2026-02-23"
+    },
+    "timeslot" : {
+      "id" : "30b94c27-4741-4477-935b-6ed986caa8a8",
+      "dayOfWeek" : "SATURDAY",
+      "startTime" : "15:00:00",
+      "midweek" : false,
+      "isMidweek" : false
+    },
+    "stadium" : {
+      "id" : "c5e0df7f-d802-4f77-aabd-81a69256fb61",
+      "name" : "City Arena"
+    }
+  }, {
+    "id" : "26d47259-c82a-45a8-82d4-979d97a13236",
+    "homeTeam" : {
+      "id" : "636bb882-fde1-4f34-b545-fadefaad01dd",
+      "code" : "T4",
+      "name" : "Team 4",
+      "stadium" : {
+        "id" : "a7ad265b-0478-410c-bb89-fd075fbe9149",
+        "name" : "National Stadium"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "awayTeam" : {
+      "id" : "b4fd9348-11a7-421b-aa1f-9be968955b6c",
+      "code" : "T3",
+      "name" : "Team 3",
+      "stadium" : {
+        "id" : "3b96d8cd-ddd1-49b8-ba20-a0b9b12a6a64",
+        "name" : "Olympic Park"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "round" : {
+      "id" : "d97fda42-b733-42a6-95bd-a64c54e713eb",
+      "roundNumber" : 6,
+      "startDate" : "2026-02-23"
+    },
+    "timeslot" : {
+      "id" : "c28a18ea-67fd-4e22-8667-58daf4c59039",
+      "dayOfWeek" : "SATURDAY",
+      "startTime" : "18:30:00",
+      "midweek" : false,
+      "isMidweek" : false
+    },
+    "stadium" : {
+      "id" : "a7ad265b-0478-410c-bb89-fd075fbe9149",
+      "name" : "National Stadium"
+    }
+  }, {
+    "id" : "7dd379b4-a239-4374-8093-c701bc9cd9f3",
+    "homeTeam" : {
+      "id" : "6eb2d14c-ac87-4c91-8fb7-ec29b9017403",
+      "code" : "T5",
+      "name" : "Team 5",
+      "stadium" : {
+        "id" : "c5e0df7f-d802-4f77-aabd-81a69256fb61",
+        "name" : "City Arena"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "awayTeam" : {
+      "id" : "b171a369-3a6b-4c7c-990e-2c3f6bd81f32",
+      "code" : "T1",
+      "name" : "Team 1",
+      "stadium" : {
+        "id" : "a7ad265b-0478-410c-bb89-fd075fbe9149",
+        "name" : "National Stadium"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "round" : {
+      "id" : "a4251b94-3de2-4a28-8c36-3db435a12fb7",
+      "roundNumber" : 7,
+      "startDate" : "2026-03-02"
+    },
+    "timeslot" : {
+      "id" : "be5c6d2d-41ae-43ba-8756-8b988cbaef8a",
+      "dayOfWeek" : "SATURDAY",
+      "startTime" : "12:30:00",
+      "midweek" : false,
+      "isMidweek" : false
+    },
+    "stadium" : {
+      "id" : "c5e0df7f-d802-4f77-aabd-81a69256fb61",
+      "name" : "City Arena"
+    }
+  }, {
+    "id" : "bc18b7a6-dd08-496b-a467-3052c86108d4",
+    "homeTeam" : {
+      "id" : "636bb882-fde1-4f34-b545-fadefaad01dd",
+      "code" : "T4",
+      "name" : "Team 4",
+      "stadium" : {
+        "id" : "a7ad265b-0478-410c-bb89-fd075fbe9149",
+        "name" : "National Stadium"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "awayTeam" : {
+      "id" : "9cbe36dd-2dd4-487f-b142-120141e5734e",
+      "code" : "T6",
+      "name" : "Team 6",
+      "stadium" : {
+        "id" : "3b96d8cd-ddd1-49b8-ba20-a0b9b12a6a64",
+        "name" : "Olympic Park"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "round" : {
+      "id" : "a4251b94-3de2-4a28-8c36-3db435a12fb7",
+      "roundNumber" : 7,
+      "startDate" : "2026-03-02"
+    },
+    "timeslot" : {
+      "id" : "30b94c27-4741-4477-935b-6ed986caa8a8",
+      "dayOfWeek" : "SATURDAY",
+      "startTime" : "15:00:00",
+      "midweek" : false,
+      "isMidweek" : false
+    },
+    "stadium" : {
+      "id" : "a7ad265b-0478-410c-bb89-fd075fbe9149",
+      "name" : "National Stadium"
+    }
+  }, {
+    "id" : "075a5dd9-0cf5-49a9-90f0-ccb0f3763efd",
+    "homeTeam" : {
+      "id" : "b4fd9348-11a7-421b-aa1f-9be968955b6c",
+      "code" : "T3",
+      "name" : "Team 3",
+      "stadium" : {
+        "id" : "3b96d8cd-ddd1-49b8-ba20-a0b9b12a6a64",
+        "name" : "Olympic Park"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "awayTeam" : {
+      "id" : "15fce957-d631-4b44-bf0f-ac0d2619e9ea",
+      "code" : "T2",
+      "name" : "Team 2",
+      "stadium" : {
+        "id" : "c5e0df7f-d802-4f77-aabd-81a69256fb61",
+        "name" : "City Arena"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "round" : {
+      "id" : "a4251b94-3de2-4a28-8c36-3db435a12fb7",
+      "roundNumber" : 7,
+      "startDate" : "2026-03-02"
+    },
+    "timeslot" : {
+      "id" : "c28a18ea-67fd-4e22-8667-58daf4c59039",
+      "dayOfWeek" : "SATURDAY",
+      "startTime" : "18:30:00",
+      "midweek" : false,
+      "isMidweek" : false
+    },
+    "stadium" : {
+      "id" : "3b96d8cd-ddd1-49b8-ba20-a0b9b12a6a64",
+      "name" : "Olympic Park"
+    }
+  }, {
+    "id" : "d36d0493-ea98-4f3c-a070-5a410aba6203",
+    "homeTeam" : {
+      "id" : "636bb882-fde1-4f34-b545-fadefaad01dd",
+      "code" : "T4",
+      "name" : "Team 4",
+      "stadium" : {
+        "id" : "a7ad265b-0478-410c-bb89-fd075fbe9149",
+        "name" : "National Stadium"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "awayTeam" : {
+      "id" : "b171a369-3a6b-4c7c-990e-2c3f6bd81f32",
+      "code" : "T1",
+      "name" : "Team 1",
+      "stadium" : {
+        "id" : "a7ad265b-0478-410c-bb89-fd075fbe9149",
+        "name" : "National Stadium"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "round" : {
+      "id" : "ac806b3d-7bc2-4c72-8c14-3ba4a670fdaa",
+      "roundNumber" : 8,
+      "startDate" : "2026-03-09"
+    },
+    "timeslot" : {
+      "id" : "be5c6d2d-41ae-43ba-8756-8b988cbaef8a",
+      "dayOfWeek" : "SATURDAY",
+      "startTime" : "12:30:00",
+      "midweek" : false,
+      "isMidweek" : false
+    },
+    "stadium" : {
+      "id" : "a7ad265b-0478-410c-bb89-fd075fbe9149",
+      "name" : "National Stadium"
+    }
+  }, {
+    "id" : "ea39ce70-5a9a-4fc2-b52d-aa70e016dda8",
+    "homeTeam" : {
+      "id" : "b4fd9348-11a7-421b-aa1f-9be968955b6c",
+      "code" : "T3",
+      "name" : "Team 3",
+      "stadium" : {
+        "id" : "3b96d8cd-ddd1-49b8-ba20-a0b9b12a6a64",
+        "name" : "Olympic Park"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "awayTeam" : {
+      "id" : "6eb2d14c-ac87-4c91-8fb7-ec29b9017403",
+      "code" : "T5",
+      "name" : "Team 5",
+      "stadium" : {
+        "id" : "c5e0df7f-d802-4f77-aabd-81a69256fb61",
+        "name" : "City Arena"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "round" : {
+      "id" : "ac806b3d-7bc2-4c72-8c14-3ba4a670fdaa",
+      "roundNumber" : 8,
+      "startDate" : "2026-03-09"
+    },
+    "timeslot" : {
+      "id" : "30b94c27-4741-4477-935b-6ed986caa8a8",
+      "dayOfWeek" : "SATURDAY",
+      "startTime" : "15:00:00",
+      "midweek" : false,
+      "isMidweek" : false
+    },
+    "stadium" : {
+      "id" : "3b96d8cd-ddd1-49b8-ba20-a0b9b12a6a64",
+      "name" : "Olympic Park"
+    }
+  }, {
+    "id" : "7f6a2558-a748-4741-b643-c76aa5db06d9",
+    "homeTeam" : {
+      "id" : "15fce957-d631-4b44-bf0f-ac0d2619e9ea",
+      "code" : "T2",
+      "name" : "Team 2",
+      "stadium" : {
+        "id" : "c5e0df7f-d802-4f77-aabd-81a69256fb61",
+        "name" : "City Arena"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "awayTeam" : {
+      "id" : "9cbe36dd-2dd4-487f-b142-120141e5734e",
+      "code" : "T6",
+      "name" : "Team 6",
+      "stadium" : {
+        "id" : "3b96d8cd-ddd1-49b8-ba20-a0b9b12a6a64",
+        "name" : "Olympic Park"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "round" : {
+      "id" : "ac806b3d-7bc2-4c72-8c14-3ba4a670fdaa",
+      "roundNumber" : 8,
+      "startDate" : "2026-03-09"
+    },
+    "timeslot" : {
+      "id" : "c28a18ea-67fd-4e22-8667-58daf4c59039",
+      "dayOfWeek" : "SATURDAY",
+      "startTime" : "18:30:00",
+      "midweek" : false,
+      "isMidweek" : false
+    },
+    "stadium" : {
+      "id" : "c5e0df7f-d802-4f77-aabd-81a69256fb61",
+      "name" : "City Arena"
+    }
+  }, {
+    "id" : "55bd6750-e9a5-40eb-85a0-657de62e9b08",
+    "homeTeam" : {
+      "id" : "b4fd9348-11a7-421b-aa1f-9be968955b6c",
+      "code" : "T3",
+      "name" : "Team 3",
+      "stadium" : {
+        "id" : "3b96d8cd-ddd1-49b8-ba20-a0b9b12a6a64",
+        "name" : "Olympic Park"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "awayTeam" : {
+      "id" : "b171a369-3a6b-4c7c-990e-2c3f6bd81f32",
+      "code" : "T1",
+      "name" : "Team 1",
+      "stadium" : {
+        "id" : "a7ad265b-0478-410c-bb89-fd075fbe9149",
+        "name" : "National Stadium"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "round" : {
+      "id" : "afed352b-ffd6-444d-882d-098ab9c9ac5a",
+      "roundNumber" : 9,
+      "startDate" : "2026-03-16"
+    },
+    "timeslot" : {
+      "id" : "be5c6d2d-41ae-43ba-8756-8b988cbaef8a",
+      "dayOfWeek" : "SATURDAY",
+      "startTime" : "12:30:00",
+      "midweek" : false,
+      "isMidweek" : false
+    },
+    "stadium" : {
+      "id" : "3b96d8cd-ddd1-49b8-ba20-a0b9b12a6a64",
+      "name" : "Olympic Park"
+    }
+  }, {
+    "id" : "647b62db-274a-4334-b538-0079c66425c8",
+    "homeTeam" : {
+      "id" : "15fce957-d631-4b44-bf0f-ac0d2619e9ea",
+      "code" : "T2",
+      "name" : "Team 2",
+      "stadium" : {
+        "id" : "c5e0df7f-d802-4f77-aabd-81a69256fb61",
+        "name" : "City Arena"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "awayTeam" : {
+      "id" : "636bb882-fde1-4f34-b545-fadefaad01dd",
+      "code" : "T4",
+      "name" : "Team 4",
+      "stadium" : {
+        "id" : "a7ad265b-0478-410c-bb89-fd075fbe9149",
+        "name" : "National Stadium"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "round" : {
+      "id" : "afed352b-ffd6-444d-882d-098ab9c9ac5a",
+      "roundNumber" : 9,
+      "startDate" : "2026-03-16"
+    },
+    "timeslot" : {
+      "id" : "30b94c27-4741-4477-935b-6ed986caa8a8",
+      "dayOfWeek" : "SATURDAY",
+      "startTime" : "15:00:00",
+      "midweek" : false,
+      "isMidweek" : false
+    },
+    "stadium" : {
+      "id" : "c5e0df7f-d802-4f77-aabd-81a69256fb61",
+      "name" : "City Arena"
+    }
+  }, {
+    "id" : "1b1b5d18-fcaa-4aba-a0d1-e3860e09094f",
+    "homeTeam" : {
+      "id" : "9cbe36dd-2dd4-487f-b142-120141e5734e",
+      "code" : "T6",
+      "name" : "Team 6",
+      "stadium" : {
+        "id" : "3b96d8cd-ddd1-49b8-ba20-a0b9b12a6a64",
+        "name" : "Olympic Park"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "awayTeam" : {
+      "id" : "6eb2d14c-ac87-4c91-8fb7-ec29b9017403",
+      "code" : "T5",
+      "name" : "Team 5",
+      "stadium" : {
+        "id" : "c5e0df7f-d802-4f77-aabd-81a69256fb61",
+        "name" : "City Arena"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "round" : {
+      "id" : "afed352b-ffd6-444d-882d-098ab9c9ac5a",
+      "roundNumber" : 9,
+      "startDate" : "2026-03-16"
+    },
+    "timeslot" : {
+      "id" : "1a1a94a4-04ef-48f6-86a9-748e2b8061bd",
+      "dayOfWeek" : "SUNDAY",
+      "startTime" : "12:30:00",
+      "midweek" : false,
+      "isMidweek" : false
+    },
+    "stadium" : {
+      "id" : "3b96d8cd-ddd1-49b8-ba20-a0b9b12a6a64",
+      "name" : "Olympic Park"
+    }
+  }, {
+    "id" : "74077c83-fb20-49c2-9300-0f0ba7960aaa",
+    "homeTeam" : {
+      "id" : "15fce957-d631-4b44-bf0f-ac0d2619e9ea",
+      "code" : "T2",
+      "name" : "Team 2",
+      "stadium" : {
+        "id" : "c5e0df7f-d802-4f77-aabd-81a69256fb61",
+        "name" : "City Arena"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "awayTeam" : {
+      "id" : "b171a369-3a6b-4c7c-990e-2c3f6bd81f32",
+      "code" : "T1",
+      "name" : "Team 1",
+      "stadium" : {
+        "id" : "a7ad265b-0478-410c-bb89-fd075fbe9149",
+        "name" : "National Stadium"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "round" : {
+      "id" : "40d29f2b-a0ea-46e0-912b-6fa3a99be627",
+      "roundNumber" : 10,
+      "startDate" : "2026-03-23"
+    },
+    "timeslot" : {
+      "id" : "41a37913-9869-4128-b739-bdb7236800d8",
+      "dayOfWeek" : "SUNDAY",
+      "startTime" : "15:00:00",
+      "midweek" : false,
+      "isMidweek" : false
+    },
+    "stadium" : {
+      "id" : "c5e0df7f-d802-4f77-aabd-81a69256fb61",
+      "name" : "City Arena"
+    }
+  }, {
+    "id" : "5fa9d172-6c40-4a70-98d1-78ee12d23f1a",
+    "homeTeam" : {
+      "id" : "9cbe36dd-2dd4-487f-b142-120141e5734e",
+      "code" : "T6",
+      "name" : "Team 6",
+      "stadium" : {
+        "id" : "3b96d8cd-ddd1-49b8-ba20-a0b9b12a6a64",
+        "name" : "Olympic Park"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "awayTeam" : {
+      "id" : "b4fd9348-11a7-421b-aa1f-9be968955b6c",
+      "code" : "T3",
+      "name" : "Team 3",
+      "stadium" : {
+        "id" : "3b96d8cd-ddd1-49b8-ba20-a0b9b12a6a64",
+        "name" : "Olympic Park"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "round" : {
+      "id" : "40d29f2b-a0ea-46e0-912b-6fa3a99be627",
+      "roundNumber" : 10,
+      "startDate" : "2026-03-23"
+    },
+    "timeslot" : {
+      "id" : "41a37913-9869-4128-b739-bdb7236800d8",
+      "dayOfWeek" : "SUNDAY",
+      "startTime" : "15:00:00",
+      "midweek" : false,
+      "isMidweek" : false
+    },
+    "stadium" : {
+      "id" : "3b96d8cd-ddd1-49b8-ba20-a0b9b12a6a64",
+      "name" : "Olympic Park"
+    }
+  }, {
+    "id" : "f66684d2-2233-4579-9efe-cb56210dc823",
+    "homeTeam" : {
+      "id" : "636bb882-fde1-4f34-b545-fadefaad01dd",
+      "code" : "T4",
+      "name" : "Team 4",
+      "stadium" : {
+        "id" : "a7ad265b-0478-410c-bb89-fd075fbe9149",
+        "name" : "National Stadium"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "awayTeam" : {
+      "id" : "6eb2d14c-ac87-4c91-8fb7-ec29b9017403",
+      "code" : "T5",
+      "name" : "Team 5",
+      "stadium" : {
+        "id" : "c5e0df7f-d802-4f77-aabd-81a69256fb61",
+        "name" : "City Arena"
+      },
+      "europeanCupParticipation" : "NONE"
+    },
+    "round" : {
+      "id" : "40d29f2b-a0ea-46e0-912b-6fa3a99be627",
+      "roundNumber" : 10,
+      "startDate" : "2026-03-23"
+    },
+    "timeslot" : {
+      "id" : "41a37913-9869-4128-b739-bdb7236800d8",
+      "dayOfWeek" : "SUNDAY",
+      "startTime" : "15:00:00",
+      "midweek" : false,
+      "isMidweek" : false
+    },
+    "stadium" : {
+      "id" : "a7ad265b-0478-410c-bb89-fd075fbe9149",
+      "name" : "National Stadium"
+    }
+  } ],
+  "score" : {
+    "initScore" : 0,
+    "hardScore" : 0,
+    "softScore" : -3,
+    "feasible" : true,
+    "zero" : false,
+    "solutionInitialized" : true
+  },
+  "leagueRules" : {
+    "matchesPerRound" : 3,
+    "strictRounds" : false
+  }
+}

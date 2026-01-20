@@ -228,8 +228,9 @@ public class ScheduleController {
         } return cnt;
     }
     private int countH9(List<Match> matches, List<java.time.LocalDate> forbidden) {
-        if (forbidden==null) return 0; int cnt=0; for (Match m: matches) { java.time.LocalDate d = matchDate(m); if (d!=null && forbidden.contains(d)) cnt++; } return cnt;
+        if (forbidden==null) return 0; int cnt=0; for (Match m: matches) { java.time.LocalDate d1 = matchDate(m); java.time.LocalDate d2 = roundStartDate(m); if ((d1!=null && forbidden.contains(d1)) || (d2!=null && forbidden.contains(d2))) cnt++; } return cnt;
     }
+    private java.time.LocalDate roundStartDate(Match m) { if (m==null||m.getRound()==null) return null; return m.getRound().getStartDate(); }
     private int countS2(List<Match> matches) { int cnt=0; for (Match m:matches) if (m.getTimeslot()!=null) { var d = m.getTimeslot().getDayOfWeek(); if (d==java.time.DayOfWeek.FRIDAY||d==java.time.DayOfWeek.MONDAY) cnt++; } return cnt; }
     private int countS3(List<Match> matches) { int cnt=0; for (int i=0;i<matches.size();i++) for (int j=i+1;j<matches.size();j++) if (sameMatchDate(matches.get(i), matches.get(j)) && sameTimeslot(matches.get(i), matches.get(j))) cnt++; return cnt; }
     private int countS4(List<Match> matches) { int cnt=0; for (Match m:matches) if (m.getTimeslot()!=null) { var d = m.getTimeslot().getDayOfWeek(); var t = m.getTimeslot().getStartTime(); boolean lateFriMon = ((d==java.time.DayOfWeek.FRIDAY||d==java.time.DayOfWeek.MONDAY) && java.time.LocalTime.of(21,30).equals(t)); boolean lateSun = (d==java.time.DayOfWeek.SUNDAY && java.time.LocalTime.of(21,0).equals(t)); if (lateFriMon||lateSun) cnt++; } return cnt; }

@@ -245,38 +245,10 @@ public class DataLoaderService {
         return new LeagueData(teams, stadiums, 2);
     }
 
-    private LocalDate orthodoxEaster(int year) {
-        // Meeus/Jones/Butcher for Julian Easter, then convert to Gregorian.
-        int a = year % 4;
-        int b = year % 7;
-        int c = year % 19;
-        int d = (19 * c + 15) % 30;
-        int e = (2 * a + 4 * b - d + 34) % 7;
-
-        int month = (d + e + 114) / 31; // 3=March, 4=April (Julian)
-        int day = ((d + e + 114) % 31) + 1; // Julian calendar day
-
-        LocalDate julianEaster = LocalDate.of(year, month, day).plusDays(13); // Julian->Gregorian (valid 1900-2099)
-        return julianEaster;
-    }
-
-    private List<LocalDate> easterWindow(int year) {
-        LocalDate easter = orthodoxEaster(year);
-        // Типичные “неигровые” даты вокруг Пасхи:
-        // Страстная пятница (пятница перед), Пасха (воскресенье), Пасхальный
-        // понедельник
-        return List.of(
-                easter.minusDays(2), // Good Friday
-                easter, // Easter Sunday
-                easter.plusDays(1) // Easter Monday
-        );
-    }
 
     private List<java.time.LocalDate> createForbiddenDates(String type) {
         int year = java.time.LocalDate.now().getYear();
         java.util.List<java.time.LocalDate> list = new java.util.ArrayList<>();
-        list.addAll(easterWindow(year));
-        list.addAll(easterWindow(year + 1));
         if ("epl".equals(type)) {
             // EPL: forbid New Year and Christmas windows
             list.add(java.time.LocalDate.of(year, 1, 1));
@@ -287,26 +259,24 @@ public class DataLoaderService {
             list.add(java.time.LocalDate.of(year + 1, 12, 24));
             list.add(java.time.LocalDate.of(year + 1, 12, 25));
             list.add(java.time.LocalDate.of(year + 1, 12, 26));
-            // keep Nov 18 as well (national day)
-            list.add(java.time.LocalDate.of(year, 11, 18));
-            list.add(java.time.LocalDate.of(year + 1, 11, 18));
+            
         } else if ("virsliga".equals(type)) {
             // Virsliga: forbid local holidays and test April dates
             list.add(java.time.LocalDate.of(year, 11, 18));
             list.add(java.time.LocalDate.of(year + 1, 11, 18));
-            list.add(java.time.LocalDate.of(year, 5, 4));
-            list.add(java.time.LocalDate.of(year + 1, 5, 4));
-            list.add(java.time.LocalDate.of(year, 6, 23));
-            list.add(java.time.LocalDate.of(year + 1, 6, 23));
-            list.add(java.time.LocalDate.of(year, 6, 24));
-            list.add(java.time.LocalDate.of(year + 1, 6, 24));
-            list.add(java.time.LocalDate.of(year, 6, 25));
-            list.add(java.time.LocalDate.of(year + 1, 6, 25));
+       
+
         } else {
             // small/default: include a minimal set
             list.add(java.time.LocalDate.of(year, 11, 18));
             list.add(java.time.LocalDate.of(year, 4, 3));
             list.add(java.time.LocalDate.of(year, 4, 5));
+            list.add(java.time.LocalDate.of(year, 4, 10));
+            list.add(java.time.LocalDate.of(year, 4, 12));
+            list.add(java.time.LocalDate.of(year, 4, 13));
+            list.add(java.time.LocalDate.of(year + 1, 4, 30));
+            list.add(java.time.LocalDate.of(year + 1, 5, 2));
+            list.add(java.time.LocalDate.of(year + 1, 5, 3));
         }
         return list;
     }

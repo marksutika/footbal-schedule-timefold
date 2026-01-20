@@ -153,10 +153,24 @@ public class ExplainController {
         if (forbidden == null) return 0;
         int cnt = 0;
         for (JsonNode m : matches) {
-            LocalDate d = matchDate(m);
-            if (d != null && forbidden.contains(d)) cnt++;
+            LocalDate d1 = matchDate(m);
+            LocalDate d2 = roundStartDate(m);
+            if ((d1 != null && forbidden.contains(d1)) || (d2 != null && forbidden.contains(d2))) cnt++;
         }
         return cnt;
+    }
+
+    private LocalDate roundStartDate(JsonNode m) {
+        if (m==null) return null;
+        JsonNode round = m.get("round");
+        if (round==null) return null;
+        JsonNode startDateNode = round.get("startDate");
+        if (startDateNode == null) return null;
+        try {
+            return LocalDate.parse(startDateNode.asText());
+        } catch (Exception ex) {
+            return null;
+        }
     }
 
     private int countS2(List<JsonNode> matches) {
